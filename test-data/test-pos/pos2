@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<!DOCTYPE LexicalResource SYSTEM "DTD_LMF_REV_16.dtd">
+<LexicalResource dtdVersion="16">
+    <GlobalInformation>
+        <feat att="languageCoding" val="ISO 639-3"/>
+    </GlobalInformation>
+    <Lexicon>
+    	<feat att="lang" val="eng"/>
+    	<LexicalEntry>
+    		<feat att="partOfSpeech" val="noun"/>
+    		<Lemma>
+    			<feat att="writtenForm" val="book"/>
+    		</Lemma>
+    		<Sense>
+    			<Definition>
+    				<feat att="text" val="A collection of sheets of paper bound together to hinge at one edge, containing printed or written material, pictures, etc.">
+    			</Definition>
+    		</Sense>
+    	</LexicalEntry>
+    	<LexicalEntry>
+   			<feat att="partOfSpeech" val="verb"/>
+    		<Lemma>
+    			<feat att="writtenForm" val="book"/>
+    		</Lemma>
+    		<Sense>
+    			<Definition>
+    				<feat att="text" val="To penalise (someone) for an offence. "/>
+    			</Definition>
+    		</Sense>
+    	</LexicalEntry>
+    </Lexicon>
+</LexicalResource>

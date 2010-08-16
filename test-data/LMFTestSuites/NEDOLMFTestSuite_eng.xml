@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE LexicalResource SYSTEM "LMFNLP.dtd">
+<LexicalResource dtdVersion="14">
+
+<GlobalInformation>
+	<feat att="label" val="JP"/>
+</GlobalInformation>
+
+<Lexicon>
+
+<!-- Lexical Entry of `sell' -->
+<LexicalEntry>
+    <feat att="partOfSpeech" val="verb"/>
+    <Lemma>
+        <feat att="writtenForm" val="sell"/>
+    </Lemma>
+    <Sense id="sell1" synset="sell">
+        <PredicativeRepresentation predicate="SP1"
+            correspondences="SVO_XY"/>
+    </Sense>
+	 <SyntacticBehaviour subcategorizationFrames="regularSVO"/>
+ </LexicalEntry>
+
+<!-- Lexical Entry of `buy' -->
+<LexicalEntry>
+    <feat att="partOfSpeech" val="verb"/>
+    <Lemma>
+        <feat att="writtenForm" val="buy"/>
+    </Lemma>
+    <Sense id="buy1" synset="buy">
+        <PredicativeRepresentation predicate="SP1"
+              correspondences="SVO_XY"/>
+    </Sense>
+	 <SyntacticBehaviour subcategorizationFrames="regularSVO"/>
+</LexicalEntry>
+
+<!-- Lexical Entry of `eat' -->
+<LexicalEntry>
+    <feat att="partOfSpeech" val="verb"/>
+    <Lemma>
+        <feat att="writtenForm" val="eat"/>
+    </Lemma>
+    <Sense id="eat1" synset="eat">
+        <PredicativeRepresentation predicate="SP2"
+              correspondences="SVO_XY"/>
+    </Sense>
+	 <SyntacticBehaviour subcategorizationFrames="regularSVO"/>
+</LexicalEntry>
+
+<!-- Lexical Entry of `Peking duck' -->
+<LexicalEntry>
+    <feat att="partOfSpeech" val="noun"/>
+    <Lemma>
+        <feat att="writtenForm" val="Peking duck"/>
+    </Lemma>
+    <Sense id="Peking_duck1" synset="food"/>
+</LexicalEntry>
+
+<!-- subcategorization frame of regular SVO -->
+<SubcategorizationFrame id="regularSVO">
+    <SyntacticArgument id="synArgX">
+        <feat att="function" val="subject"/>
+        <feat att="syntacticConstituent" val="NP"/>
+    </SyntacticArgument>
+    <SyntacticArgument id="synArgY">
+        <feat att="function" val="object"/>
+        <feat att="syntacticConstituent" val="NP"/>
+    </SyntacticArgument>
+</SubcategorizationFrame>
+
+
+<!-- semantic argument of `sell' and `buy' -->
+<SemanticPredicate id="SP1">
+    <feat att="label" val="human_ACT_product"/>
+    <SemanticArgument>
+        <feat att="label" val="X"/>
+	<feat att="semanticRole" val="agent"/>
+	<feat att="restriction" val="human"/>
+    </SemanticArgument>
+    <SemanticArgument>
+        <feat att="label" val="Y"/>
+	<feat att="semanticRole" val="patient"/>
+	<feat att="restriction" val="product"/>
+    </SemanticArgument>
+</SemanticPredicate>
+
+<!-- semantic argument of `eat' -->
+<SemanticPredicate id="SP2">
+    <feat att="label" val="human_ACT_food"/>
+    <SemanticArgument>
+        <feat att="label" val="X"/>
+	<feat att="semanticRole" val="agent"/>
+	<feat att="restriction" val="human"/>
+    </SemanticArgument>
+    <SemanticArgument>
+        <feat att="label" val="Y"/>
+	<feat att="semanticRole" val="patient"/>
+	<feat att="restriction" val="food"/>
+    </SemanticArgument>
+</SemanticPredicate>
+
+<!-- semantic class of `sell' -->
+<Synset id="sell">
+	<feat att="source" val="new_oxford_american_dictionary"/>
+	<SemanticDefinition>
+		<feat att="text" val="give or hand over something in exchange for money"/>
+	</SemanticDefinition>
+</Synset>
+
+<!-- semantic class of `buy' -->
+<Synset id="buy">
+	<feat att="source" val="new_oxford_american_dictionary"/>
+	<SemanticDefinition>
+		<feat att="text" val="obtain in exchange for payment"/>
+	</SemanticDefinition>
+</Synset>
+
+<!-- semantic class of `eat' -->
+<Synset id="eat">
+	<feat att="source" val="new_oxford_american_dictionary"/>
+	<SemanticDefinition>
+		<feat att="text" val="put food into the mouth and chew and swallow it"/>
+	</SemanticDefinition>
+</Synset>
+
+<!-- semantic class of `food' -->
+<Synset id="food">
+	<feat att="source" val="new_oxford_american_dictionary"/>
+	<SemanticDefinition>
+		<feat att="text" val="any nutritious substance that people or animals eat or drink"/>
+	</SemanticDefinition>
+</Synset>
+
+<!-- correspondence between syntactic and semantic argument -->
+<SynSemCorrespondence id="SVO_XY">
+	<SynSemArgMap synFeature="synArgX" semFeature="X"/>
+	<SynSemArgMap synFeature="synArgY" semFeature="Y"/>
+</SynSemCorrespondence>
+
+
+</Lexicon>
+
+</LexicalResource>

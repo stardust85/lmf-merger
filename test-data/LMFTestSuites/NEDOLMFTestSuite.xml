@@ -1,0 +1,230 @@
+<Lexicon>
+
+<!-- Lexical Entry of '卖' -->
+<LexicalEntry>
+    <feat att="partOfSpeech" val="verb"/>
+    <Lemma>
+        <feat att="writtenForm" val="卖"/>
+    </Lemma>
+    <SyntacticBehaviour subcategorizationFrame="regularSVO"/>
+    <Sense id="卖" synset="卖">
+        <PredicativeRepresentation predicate="SP1"
+            correspondences="SVO_XY"/>
+    </Sense>
+</LexicalEntry>
+
+<!-- Lexical Entry of '销售' -->
+<LexicalEntry>
+    <feat att="partOfSpeech" val="verb"/>
+    <Lemma>
+        <feat att="writtenForm" val="销售"/>
+    </Lemma>
+    <SyntacticBehaviour subcategorizationFrame="regularSVO"/>
+    <Sense id="销售" synset="卖">
+        <PredicativeRepresentation predicate="SP1"
+            correspondences="SVO_XY"/>
+    </Sense>
+</LexicalEntry>
+
+<!-- Lexical Entry of '出售' -->
+<LexicalEntry>
+    <feat att="partOfSpeech" val="verb"/>
+    <Lemma>
+        <feat att="writtenForm" val="出售"/>
+    </Lemma>
+    <SyntacticBehaviour subcategorizationFrame="regularSVO"/>
+    <Sense id="出售" synset="卖">
+        <PredicativeRepresentation predicate="SP1"
+            correspondences="SVO_XY"/>
+    </Sense>
+</LexicalEntry>
+
+<!-- Lexical Entry of '买' -->
+<LexicalEntry>
+    <feat att="partOfSpeech" val="verb"/>
+    <Lemma>
+        <feat att="writtenForm" val="买"/>
+    </Lemma>
+    <SyntacticBehaviour subcategorizationFrame="regularSVO"/>
+    <Sense id="买" synset="买">
+        <PredicativeRepresentation predicate="SP1"
+            correspondences="SVO_XY"/>
+    </Sense>
+</LexicalEntry>
+
+<!-- Lexical Entry of '购买' -->
+<LexicalEntry>
+    <feat att="partOfSpeech" val="verb"/>
+    <Lemma>
+        <feat att="writtenForm" val="购买"/>
+    </Lemma>
+    <SyntacticBehaviour subcategorizationFrame="regularSVO"/>
+    <Sense id="购买" synset="买">
+        <PredicativeRepresentation predicate="SP1"
+            correspondences="SVO_XY"/>
+    </Sense>
+</LexicalEntry>
+
+<!-- Lexical Entry of '订' -->
+<LexicalEntry>
+    <feat att="partOfSpeech" val="verb"/>
+    <Lemma>
+        <feat att="writtenForm" val="订"/>
+    </Lemma>
+    <SyntacticBehaviour subcategorizationFrame="regularSVO"/>
+    <Sense id="订" synset="订">
+        <PredicativeRepresentation predicate="SP1"
+            correspondences="SVO_XY"/>
+    </Sense>
+</LexicalEntry>
+
+<!-- Lexical Entry of '设计' -->
+<LexicalEntry>
+    <feat att="partOfSpeech" val="verb"/>
+    <Lemma>
+        <feat att="writtenForm" val="设计"/>
+    </Lemma>
+    <SyntacticBehaviour subcategorizationFrame="regularSVO"/>
+    <Sense id="设计" synset="设计">
+        <PredicativeRepresentation predicate="SP2"
+            correspondences="SVO_XY"/>
+    </Sense>
+</LexicalEntry>
+
+<!-- Lexical Entry of '评选' -->
+<LexicalEntry>
+    <feat att="partOfSpeech" val="verb"/>
+    <Lemma>
+        <feat att="writtenForm" val="评选"/>
+    </Lemma>
+    <SyntacticBehaviour subcategorizationFrame="regularSVO"/>
+    <Sense id="评选" synset="评选">
+        <PredicativeRepresentation predicate="SP2"
+            correspondences="SVO_XY"/>
+    </Sense>
+</LexicalEntry>
+
+<!-- Lexical Entry of '吉祥物' -->
+<LexicalEntry>
+    <feat att="partOfSpeech" val="noun"/>
+    <Lemma>
+        <feat att="writtenForm" val="吉祥物"/>
+    </Lemma>
+    <Sense id="吉祥物" synset="product"/>
+</LexicalEntry>
+
+<!-- Lexical Entry of '会徽' -->
+<LexicalEntry>
+    <feat att="partOfSpeech" val="noun"/>
+    <Lemma>
+        <feat att="writtenForm" val="会徽"/>
+    </Lemma>
+    <Sense id="会徽-s" synset="symbol"/>
+    <Sense id="会徽-p" synset="product"/>
+</LexicalEntry>
+
+<!-- Lexical Entry of '纪念品' -->
+<LexicalEntry>
+    <feat att="partOfSpeech" val="noun"/>
+    <Lemma>
+        <feat att="writtenForm" val="纪念品"/>
+    </Lemma>
+    <Sense id="纪念品-p" synset="product"/>
+    <Sense id="纪念品-s" synset="symbol"/>
+</LexicalEntry>
+
+<!-- Lexical Entry of '机票' -->
+<LexicalEntry>
+    <feat att="partOfSpeech" val="noun"/>
+    <Lemma>
+        <feat att="writtenForm" val="机票"/>
+    </Lemma>
+    <Sense id="机票" synset="product"/>
+</LexicalEntry>
+
+
+
+<!-- subcategorization frame of regular SVO -->
+<SubcategorizationFrame id="regularSVO">
+    <SyntacticArgument id="synArgX">
+        <feat att="function" val="subject"/>
+        <feat att="syntacticConstituent" val="NP"/>
+    </SyntacticArgument>
+    <SyntacticArgument id="synArgY">
+        <feat att="function" val="object"/>
+        <feat att="syntacticConstituent" val="NP"/>
+    </SyntacticArgument>
+</SubcategorizationFrame>
+
+<!-- correspondence between syntactic and semantic argument -->
+<SynSemCorrespondence id="SVO_XY">
+    <SynSemArgMap synFeature="synArgX" semFeature="X"/>
+    <SynSemArgMap synFeature="synArgY" semFeature="Y"/>
+</SynSemCorrespondence>
+
+<!-- semantic argument of `sell' and `buy' -->
+<SemanticPredicate id="SP1">
+    <feat att="label" val="human_ACT_product"/>
+    <SemanticArgument>
+        <feat att="label" val="X"/>
+	<feat att="semanticRole" val="agent"/>
+	<feat att="restriction" val="human"/>
+    </SemanticArgument>
+    <SemanticArgument>
+        <feat att="label" val="Y"/>
+	<feat att="semanticRole" val="patient"/>
+	<feat att="restriction" val="product"/>
+    </SemanticArgument>
+</SemanticPredicate>
+
+<SemanticPredicate id="SP2">
+    <feat att="label" val="human_ACT_symbol"/>
+    <SemanticArgument>
+        <feat att="label" val="X"/>
+	<feat att="semanticRole" val="agent"/>
+	<feat att="restriction" val="human"/>
+    </SemanticArgument>
+    <SemanticArgument>
+        <feat att="label" val="Y"/>
+	<feat att="semanticRole" val="patient"/>
+	<feat att="restriction" val="symbol"/>
+    </SemanticArgument>
+</SemanticPredicate>
+
+<!-- semantic class of '卖' -->
+<SynSet id="卖" source="traditional_american_dictionary">
+    <Definition>
+	<feat attr="text" val="To exchange or deliver for money or its equivalent."/>
+    </Definition>
+</SynSet>
+
+<!-- semantic class of '买' -->
+<SynSet id="买" source="traditional_american_dictionary">
+    <Definition>
+	<feat attr="text" val="To acquire in exchange for money or its equivalent."/>
+    </Definition>
+</SynSet>
+
+<!-- semantic class of '订' -->
+<SynSet id="订" source="traditional_american_dictionary">
+    <Definition>
+	<feat attr="text" val="To arrange for (tickets or lodgings, for example) in advance; reserve."/>
+    </Definition>
+</SynSet>
+
+<!-- semantic class of '设计' -->
+<SynSet id="设计" source="traditional_american_dictionary">
+    <Definition>
+	<feat attr="text" val="To create or contrive for a particular purpose or effect"/>
+    </Definition>
+</SynSet>
+
+<!-- semantic class of '评选' -->
+<SynSet id="评选" source="traditional_american_dictionary">
+    <Definition>
+	<feat attr="text" val="choose through public appraisal"/>
+    </Definition>
+</SynSet>
+
+
+</Lexicon>

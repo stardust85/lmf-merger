@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding="UTF-8"?>
+            <!-- DTD for LMF-conformant Biolexicon by CNRILC Pisa Group-->
+<!ELEMENT LexicalResource (DC*, GlobalInformation, Lexicon+)>
+<!ATTLIST LexicalResource
+    dtdVersion CDATA     #FIXED "1.1">
+    
+<!ELEMENT GlobalInformation (DC*)>
+
+<!ELEMENT Lexicon (DC*, LexicalEntry+,SubcategorizationFrame*)>
+
+<!ELEMENT LexicalEntry (POSDC+,DC*,SOURCEDC*, Lemma, WordForm*,SyntacticBehaviour*,Sense*)>
+<!ATTLIST LexicalEntry
+    ID       ID      #REQUIRED  >
+    
+<!ELEMENT Lemma (DC*, RepresentationFrame*)>
+<!ATTLIST Lemma 
+       ID                         ID #REQUIRED
+       basename CDATA #REQUIRED >
+       
+<!ELEMENT RepresentationFrame (DC*,VariantDC*,SCOREDC*)>
+<!ATTLIST RepresentationFrame
+     ID     ID #IMPLIED
+     writtenform CDATA #IMPLIED>
+
+<!ELEMENT WordForm (DC*, RepresentationFrame*)>
+<!ATTLIST WordForm
+       ID               ID #REQUIRED
+       inflectedform CDATA #REQUIRED >
+ 
+<!ELEMENT SyntacticBehaviour (DC*)>
+<!ATTLIST SyntacticBehaviour
+    id					ID #IMPLIED
+    senses				IDREFS #IMPLIED
+    subcategorizationFrames	IDREFS #IMPLIED
+    subcategorizationFrameSets	IDREFS #IMPLIED>
+   
+<!ELEMENT Sense (DC*, SenseRelation*)>
+<!ATTLIST Sense
+    id       ID #IMPLIED>
+
+<!ELEMENT SenseRelation (DC*)>
+<!ATTLIST SenseRelation
+    targets  IDREFS #REQUIRED>
+    
+<!ELEMENT SubcategorizationFrame (DC*)>
+<!ATTLIST SubcategorizationFrame
+    id                 ID #IMPLIED >
+    
+<!ELEMENT DC EMPTY>
+            <!-- att=constant to be taken from the DCR -->
+            <!-- val=free string or constant to be taken from the DCR--> 
+<!ATTLIST DC
+    att      CDATA #REQUIRED 
+    val      CDATA #REQUIRED> 
+    
+<!ELEMENT VariantDC EMPTY>                  
+<!ATTLIST VariantDC
+    VariantAtt      CDATA #FIXED "VariantType"
+    VariantVal     CDATA #REQUIRED>   
+    
+<!ELEMENT POSDC EMPTY>
+            <!-- att=constant to be taken from the DCR -->
+            <!-- val=free string or constant to be taken from the DCR-->    
+<!ATTLIST POSDC
+    POSAtt CDATA #REQUIRED
+    POSVal CDATA #REQUIRED> 
+    
+ <!ELEMENT SOURCEDC EMPTY>  
+ <!ATTLIST SOURCEDC
+    SourceAtt 	CDATA #FIXED "Source"
+    SourceVal 	CDATA #REQUIRED>
+    
+ <!ELEMENT SCOREDC EMPTY>  
+ <!ATTLIST SCOREDC
+    ScoreAtt 	CDATA #FIXED "Confidence"
+    ScoreVal 	CDATA #REQUIRED>

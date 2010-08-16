@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE LexicalResource SYSTEM "BioLexicon.dtd" >
+<LexicalResource>
+	<GlobalInformation >
+		<DC att="Authors" val="PISA-GROUP"></DC>
+	</GlobalInformation>
+	<Lexicon>
+		<DC att="name" val="Bio-lexicon"/>
+		<DC att="language" val="eng"/>
+<!--##########Lexical entry starts: it carries PoS info and SouceId PoS is implemented as a special subType of DC; SourceId belongs to the set of DC  -->
+		<LexicalEntry  ID="LE_interleukin-2">
+	                   <POSDC POSAtt="POS" POSVal="Noun"/>	 
+                                  <SOURCEDC SourceAtt="Source" SourceVal="Q4U313a"/>	     
+<!--###The morphological component. Lemma starts: it carries an attribute for preferred basename.
+	                 The object can be decorated with other info taken from the DatCat Repository -->	
+		    <Lemma ID="LM_interleukin-2" 
+		    	basename="interleukin-2" >
+		    	<DC att="GRAMMATICALNUMBER" val="Singular"/>
+		    	<DC att="GRAMMATICALGENDER" val="Feminine"/>
+<!--##################RepresentationFrame carries info concerning othographical variants -->
+		    	<RepresentationFrame ID="RF_interleukin-2" writtenform="interleukin-2">
+		    		<DC att="RFDC1" val="RFDCVAL1"/>
+		    		<VariantDC VariantAtt="VariantType" VariantVal="FullForm"/>
+		    	</RepresentationFrame>
+		    	<RepresentationFrame ID="RF_IL2" writtenform="IL2">
+		    		<DC att="RFDC1" val="RFDCVAL1"/>
+		    		<VariantDC  VariantAtt="VariantType" VariantVal="achronym"/>
+		    	</RepresentationFrame>
+		    	<RepresentationFrame ID="RF_IL-2" writtenform="IL-2">
+		    		<VariantDC  VariantAtt="VariantType" VariantVal="orthographic"/>
+		    	</RepresentationFrame>
+		     </Lemma>
+			<SyntacticBehaviour id="SB_interleukin-2" subcategorizationFrames="N0">
+			</SyntacticBehaviour>
+			<Sense id="S_interleukin-2">
+				<SenseRelation targets="S_T-Cell_growth_factor">
+					<DC att="semanticrelation" val="synonym"/>
+				</SenseRelation>
+			</Sense>
+		</LexicalEntry>
+		<LexicalEntry  ID="LE_T-Cell_growth_factor">
+			<POSDC POSAtt="POS" POSVal="Noun"/>	 
+			<SOURCEDC SourceAtt="Source" SourceVal="Q4U313b"/>	     
+<!--###The morphological component. Lemma starts: it carries an attribute for preferred basename.
+				The object can be decorated with other info taken from the DatCat Repository -->	
+			<Lemma ID="LM_T-Cell_growth_factor" 
+				basename="T-Cell_growth_factor" >
+				<DC att="GRAMMATICALNUMBER" val="Singular"/>
+<!--##################RepresentationFrame carries info concerning othographical variants -->
+			<RepresentationFrame ID="RF_T-Cell_growth_factor" writtenform="T-Cell_growth_factor">
+					<DC att="RFDC1" val="RFDCVAL1"/>
+					<VariantDC  VariantAtt="VariantType" VariantVal="FullForm"/>
+				</RepresentationFrame>
+				<RepresentationFrame ID="RF_TCGF" writtenform="TCGF">
+					<DC att="RFDC1" val="RFDCVAL1"/>
+					<VariantDC  VariantAtt="VariantType" VariantVal="Achronym"/>
+					<SCOREDC ScoreAtt="Confidence" ScoreVal="0.8"/>
+    			</RepresentationFrame>
+			</Lemma>
+			<WordForm ID="WF_T-Cell_growth_factors"
+			inflectedform="T-Cell_growth_factors" >
+				<DC att="GRAMMATICALNUMBER" val="Plural"/>
+				<RepresentationFrame ID="RF_T-Cell_growth_factors" writtenform="T-Cell_growth_factors">
+					<VariantDC  VariantAtt="VariantType" VariantVal="InflForm"/>
+				</RepresentationFrame>
+				</WordForm>
+			<SyntacticBehaviour id="SB_T-Cell_growth_factor" subcategorizationFrames="N0">
+			</SyntacticBehaviour>
+			<Sense id="S_T-Cell_growth_factor">
+			</Sense>
+		</LexicalEntry>		
+	<SubcategorizationFrame id="N0">
+	</SubcategorizationFrame>
+	</Lexicon>
+</LexicalResource>
