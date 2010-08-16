@@ -2,8 +2,8 @@
 
 # Graphical interface for invoking LmfMerger
 
-TEST_FILE1 = '/data/home/michel/diplomka/lmfmerge/lmf/encoding/iso-8859-2.xml'
-TEST_FILE2 = '/data/home/michel/diplomka/lmfmerge/lmf/encoding/iso-8859-2.xml'
+TEST_FILE1 = '../test-data/test-pos/pos'
+TEST_FILE2 = '../test-data/test-pos/pos2'
 
 import pygtk
 pygtk.require('2.0')

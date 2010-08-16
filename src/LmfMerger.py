@@ -3,7 +3,10 @@
 import sys
 import xml.dom
 import xml.dom.minidom
+import xml.parsers.expat
+
 import LmfMergerGui
+
 
 
 class LmfNormalizer:
@@ -123,7 +126,7 @@ class LmfMerger:
 		pass
 
 
-	def parse_lmf_dom(self, dom):
+	def parse_lmf_data(self, dom):
 		"""
 		Adds new properties to lexical entries (for easier access).
 
@@ -187,6 +190,12 @@ class LmfMerger:
 		else:
 			self.gui.add_message(message, wrap)
 
+	def try_parse_dom(self, file):
+		try:
+			return xml.dom.minidom.parse(file)
+		except xml.parsers.expat.ExpatError as e:
+			self.my_print("XML parsing error: " + str(e))
+			return None
 
 	def __init__(self, file1, file2, outfile, gui = None):
 		"""Runs merging"""
@@ -196,12 +205,16 @@ class LmfMerger:
 		# build document object models
 		# TODO replace parse with parsestring and recode the string first
 		self.begin('building DOM tree from file ' + file1)
-		dom1 = xml.dom.minidom.parse(file1)
+		dom1 = self.try_parse_dom(file1)
 		self.end()
 
 		self.begin('building DOM tree from file ' + file2)
-		dom2 = xml.dom.minidom.parse(file2)
+		dom2 = self.try_parse_dom(file2)
 		self.end()
+
+		# something went wrong while parsing files
+		if (dom1 == None) or (dom2 == None):
+			return
 
 		# normalize DOMs
 		dom1 = LmfNormalizer(dom1).normalize_all()
