@@ -155,6 +155,7 @@ class LmfMergerGui:
 		self.messages_view = gtk.TextView()
 		self.mainVBox.pack_start(self.messages_view, False, False, 0)
 		self.messages_view.set_editable(False)
+		self.messages_view.set_wrap_mode(gtk.WRAP_CHAR)
 		self.messages_view.show()
 
 		# show window

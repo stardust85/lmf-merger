@@ -1,5 +1,7 @@
 #!/usr/local/bin/python
 
+SENSE_SIMILARITY_THRESHOLD = 80
+
 import sys
 import xml.dom
 import xml.dom.minidom
@@ -79,6 +81,21 @@ class LmfMerger:
 		"""
 		self.my_print("\t[DONE]")
 
+
+	def get_child_elements(self, node, tagname):
+		"""
+		Returns list of direct subnodes of type ELEMENT (=sub-elements)
+		of given tag name.
+		"""
+		matching_subnodes = list()
+
+		for child in node.childNodes:
+			if child.nodeType == ELEMENT_NODE and child.nodeName == tagname:
+				matching_subnodes.add(child)
+
+		return matching_subnodes
+
+
 	def get_feat(self, node, name):
 		"""Returns value of given attribute name name in any feature of the node"""
 
@@ -89,6 +106,7 @@ class LmfMerger:
 				value = feat.attributes['val'].value
 				break
 		return value
+
 
 	def get_part_of_speech(self, node):
 		""" returns part-of-speech of given node, or 'missing' if not found"""
@@ -102,28 +120,45 @@ class LmfMerger:
 
 		return value
 
+
 	def compare_senses(sense1, sense2):
 		"""
-		Returns similarity ranks of two leaf-node senses.
+		Returns similarity ranks of two senses.
 
+		0. checks if they have nested senses and definition
 		1. removes too frequent words (they don't contain the important things)
 		2. counts how many words from first set is in the second and vice-versa
 
 		"""
 		pass
 
-	def merge_senses(self, sense1, sense2):
+
+	def merge_sense_lists(self, node1, node2):
 		"""
-		Takes two nodes with <Sense> (they must be on the same level)
-		and looks to their contents. If it is too similar, asks user
-		which sense (definition) he prefers and adds the selected one.
-		If the senses are too different, adds both.
+		Merges senses from first node to second.
 		"""
-		pass
+
+		# get arrays of first level of senses
+		senses1 = self.get_child_elements(node1, 'Sense')
+		senses2 = self.get_child_elements(node2, 'Sense')
+
+		# compare each sense1 with all senses2. If nothing matches, add.
+
+		for sense1 in senses1:
+			has_similar_sense = False
+			for sense2 in senses2:
+				if self.compare_senses(sense1, sense2) > SENSE_SIMILARITY_THRESHOLD:
+					has_similar_sense = True
+					# optionally we can ask user which definition he wants
+			if not has_similar_sense:
+				node2.appendChild(sense1)
+
 
 	def merge_lexical_entries(self, lex_entry1, lex_entry2):
 		"""Adds contents of xml node lex_entry1 to xml node lex_entry2"""
-		pass
+
+		# merge <Sense> tags
+		self.merge_sense_lists(lex_entry1, lex_entry2)
 
 
 	def parse_lmf_data(self, dom):
@@ -156,8 +191,8 @@ class LmfMerger:
 		"""Adds lexical entries from dom1 to dom2. Returns merged dom2"""
 
 		# extract useful data
-		self.parse_lmf_dom(dom1)
-		self.parse_lmf_dom(dom2)
+		self.parse_lmf_data(dom1)
+		self.parse_lmf_data(dom2)
 
 		self.my_print("dom2 no pos forms" + str(dom2.lemma_written_forms))
 
@@ -176,6 +211,7 @@ class LmfMerger:
 
 		return dom2
 
+
 	def my_print(self, message, wrap = True):
 		"""
 		If runs in GUI, prints message to message view.
@@ -190,12 +226,6 @@ class LmfMerger:
 		else:
 			self.gui.add_message(message, wrap)
 
-	def try_parse_dom(self, file):
-		try:
-			return xml.dom.minidom.parse(file)
-		except xml.parsers.expat.ExpatError as e:
-			self.my_print("XML parsing error: " + str(e))
-			return None
 
 	def __init__(self, file1, file2, outfile, gui = None):
 		"""Runs merging"""
@@ -203,17 +233,16 @@ class LmfMerger:
 		self.gui = gui
 
 		# build document object models
-		# TODO replace parse with parsestring and recode the string first
-		self.begin('building DOM tree from file ' + file1)
-		dom1 = self.try_parse_dom(file1)
-		self.end()
+		try:
+			self.begin('building DOM tree from file ' + file1)
+			dom1 = xml.dom.minidom.parse(file1)
+			self.end()
 
-		self.begin('building DOM tree from file ' + file2)
-		dom2 = self.try_parse_dom(file2)
-		self.end()
-
-		# something went wrong while parsing files
-		if (dom1 == None) or (dom2 == None):
+			self.begin('building DOM tree from file ' + file2)
+			dom2 = xml.dom.minidom.parse(file2)
+			self.end()
+		except xml.parsers.expat.ExpatError as e:
+			self.my_print("XML parsing error: " + str(e))
 			return
 
 		# normalize DOMs
@@ -240,7 +269,6 @@ Usage:
 	example: ./lmf-merger.py data/lmf/ac_eko_dlouhe_50_xxx_lmf.xml \
 	data/lmf/ac_frs_dlouhe_50_xxx_lmf.xml ac_eko-frs_dlouhe_50_xxx_lmf.xml
 	"""
-
 
 
 ################################################################################
