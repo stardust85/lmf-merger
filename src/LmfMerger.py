@@ -6,6 +6,7 @@ import sys
 import xml.dom
 import xml.dom.minidom
 import xml.parsers.expat
+import re
 
 import LmfMergerGui
 
@@ -81,6 +82,10 @@ class LmfMerger:
 		"""
 		self.my_print("\t[DONE]")
 
+	def get_words(self, text):
+		text = re.sub('[^\w&^\d]', ' ', text) # convert special symbols to spaces
+		text = text.lower()
+		return text.split()
 
 	def get_child_elements(self, node, tagname):
 		"""
@@ -90,8 +95,8 @@ class LmfMerger:
 		matching_subnodes = list()
 
 		for child in node.childNodes:
-			if child.nodeType == ELEMENT_NODE and child.nodeName == tagname:
-				matching_subnodes.add(child)
+			if child.nodeType == xml.dom.Node.ELEMENT_NODE and child.nodeName == tagname:
+				matching_subnodes.append(child)
 
 		return matching_subnodes
 
@@ -120,18 +125,39 @@ class LmfMerger:
 
 		return value
 
+	def get_definitions(self, sense):
+		definition_elements = self.get_child_elements(sense, 'Definition')
+		definitions = list()
 
-	def compare_senses(sense1, sense2):
+		for definition_el in definition_elements:
+			definitions.append(self.get_feat(definition_el, 'text'))
+
+		if len(definitions) > 1:
+			self.my_print('Warning: more than one definition in one sense. '+
+			'We will use only the first one')
+		return definitions
+
+	def compare_senses(self, sense1, sense2):
 		"""
 		Returns similarity ranks of two senses.
 
-		0. checks if they have nested senses and definition
-		1. removes too frequent words (they don't contain the important things)
+		0. TODO checks if they have nested senses and definition
+		1. TODO removes too frequent words (they don't contain the important things)
 		2. counts how many words from first set is in the second and vice-versa
 
 		"""
-		pass
+		definitions1 = self.get_definitions(sense1)
+		definitions2 = self.get_definitions(sense2)
 
+		words1 = self.get_words(definitions1[0])
+		words2 = self.get_words(definitions2[0])
+
+		first_in_second = 0
+		second_in_first = 0
+
+		common_words = set(words1) & set(words2)
+		# TODO replace this stupid algorithm by something better from nltk
+		return float(len(common_words)) / (len(words1) + len(words2))
 
 	def merge_sense_lists(self, node1, node2):
 		"""
