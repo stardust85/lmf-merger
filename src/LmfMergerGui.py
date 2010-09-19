@@ -22,16 +22,16 @@ class LmfMergerThread(threading.Thread):
 		self.__outfile = outfile
 		self.quit = False
 
-	def __add_message_cb(self, message, wrap):
-		self.__gui.add_message(message, wrap)
+	def __add_message_cb(self, message, type, wrap):
+		self.__gui.add_message(message, type, wrap)
 		return False
 
-	def add_message(self, message, wrap):
-		gobject.idle_add(self.__add_message_cb, message, wrap)
+	def add_message(self, message, type, wrap):
+		gobject.idle_add(self.__add_message_cb, message, type, wrap)
 
 	def run(self):
-		gui = self.__gui
-		merger = LmfMerger.LmfMerger(self.__filename1, self.__filename2, self.__outfile, self)
+		merger = LmfMerger.LmfMerger(self)
+		merger.merge_files(self.__filename1, self.__filename2, self.__outfile)
 
 
 
@@ -161,9 +161,8 @@ class LmfMergerGui:
 		# show window
 		self.window.show()
 
-	def add_message(self, message, wrap = True):
+	def add_message(self, message, type, wrap = True):
 		self.messages_view.get_buffer().insert_at_cursor(message)
-
 		if wrap == True:
 			self.messages_view.get_buffer().insert_at_cursor("\n")
 
