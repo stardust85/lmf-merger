@@ -87,11 +87,6 @@ class LexicalResource:
 			raise IncompatibleDTDError(self.dtdVersion, anotherLR.dtdVersion)
 
 		#
-		# merge global information
-		#
-
-
-		#
 		# merge lexicons
 		#
 		for lang in anotherLR.lexicons:
@@ -109,8 +104,9 @@ class LexicalResource:
 		self.dom.documentElement.setAttribute('dtdVersion', DEFAULT_DTD_VERSION)
 
 		# add global information
-		elem = self.dom.createElement('GlobalInformation')
-		self.dom.documentElement.appendChild(elem)
+		gi_elem = self.dom.createElement('GlobalInformation')
+		add_feat(self.dom, gi_elem, 'languageCoding', 'ISO 639-3')
+		self.dom.documentElement.appendChild(gi_elem)
 
 		# add lexicons
 		for lexicon in self.lexicons:

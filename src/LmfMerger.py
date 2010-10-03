@@ -93,7 +93,9 @@ class LmfMerger:
 
 		# merge lexical resources
 		try:
+			print 'before merge lr'
 			lr2.merge_with_LR(lr1)
+			print 'after'
 		except LexicalResource.IncompatibleDTDError as e:
 			self.my_print("Incompatible DTD versions: File %s has version %s, file %s has version %s"
 			% ( file2, e.my_version, file1, e.other_version), msg_types.ERROR);

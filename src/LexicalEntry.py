@@ -20,7 +20,46 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
+from LmfTools import *
+import SenseList
 
 class LexicalEntry:
-	def __init__(xmlnode):
-		pass
+	"""
+	Class for storing a lexical entry. i.e. sth. like one word.
+	"""
+
+	def __init__(self, xmlnode):
+		# set part of speech
+		self.pos = get_part_of_speech(xmlnode)
+
+		# set lemma written form
+		lemma_elem = get_child_elements(xmlnode, 'Lemma')[0]
+		self.lemma = get_feat(lemma_elem, 'writtenForm')
+
+		# senses
+		self.sense_list = SenseList.SenseList(xmlnode)
+
+
+	def merge_with_lex_entry(self, lentry):
+		# merge senses
+		print 'le bf'
+		self.sense_list.merge_with_senselist(lentry.sense_list)
+		print 'le af'
+
+	def build_elem(self, dom):
+		lentry_elem = dom.createElement('LexicalEntry')
+		add_feat(dom, lentry_elem, 'partOfSpeech', self.pos)
+
+		# add lemma
+		lemma_elem = dom.createElement('Lemma')
+		add_feat(dom, lemma_elem, 'writtenForm', self.lemma)
+		lentry_elem.appendChild(lemma_elem)
+
+		# add senses
+		sense_elem_list = self.sense_list.build_elem(dom)
+		print 'sense list:',sense_elem_list
+
+		for sense_elem in sense_elem_list:
+			lentry_elem.appendChild(sense_elem)
+
+		return lentry_elem

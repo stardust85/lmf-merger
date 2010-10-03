@@ -21,6 +21,7 @@
 #       MA 02110-1301, USA.
 
 import xml.dom
+import re
 
 def get_words(text):
 	"""
@@ -56,6 +57,18 @@ def get_feat(node, name):
 			break
 	return value
 
+def get_part_of_speech(node):
+	""" returns part-of-speech of given node, or 'missing' if not found"""
+	value = get_feat(node, 'partOfSpeech')
+
+	if value == None:
+		value = get_feat(node, 'pos')
+
+	if value == None:
+		value = 'missing'
+
+	return value
+
 def get_feats(node):
 	"""
 	Returns dictionary of features and its values.
@@ -65,6 +78,12 @@ def get_feats(node):
 	for feat in feats:
 		result[feat.attributes['att'].value] = feat.attributes['val'].value
 	return result
+
+def add_feat(dom, elem, name, value):
+	feat = dom.createElement('feat')
+	feat.setAttribute('att', name)
+	feat.setAttribute('val', value)
+	elem.appendChild(feat)
 
 #def merge_feats(feats1, feats2):
 ##	Merges feats1 to feats2. Returns merged feats2.
