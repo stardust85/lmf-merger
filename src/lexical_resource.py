@@ -20,21 +20,14 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
-from LmfTools import *
-import Lexicon
-import LanguageCoding
+from lmf_tools import *
+import lmf_merger
+import lexicon
+
 
 DEFAULT_DTD_VERSION = "16"
 DEFAULT_LANGUAGE_CODING = "ISO 639-3"
 
-class LexicalResourceError(Exception):
-	"""Base class for exceptions in this module"""
-	pass
-
-class IncompatibleDTDError(LexicalResourceError):
-	def __init__(self, my_version, other_version):
-		self.my_version = my_version
-		self.other_version = other_version
 
 class LexicalResource:
 	"""
@@ -51,12 +44,15 @@ class LexicalResource:
 		except KeyError:
 			self.dtdVersion = None
 
+		# only version 16 supported for now
+		if self.dtdVersion != '16':
+			raise lmf_merger.FatalMergeError('DTD version %d not supported. Please upgrade to version 16')
+
 		#
 		# read global information
 		#
 		gi_node = get_child_elements(xmlnode, 'GlobalInformation')[0]
 		self.global_info = get_feats(gi_node)
-
 		# language coding
 		language_coding = None
 		if 'languageCoding' in self.global_info:
@@ -66,13 +62,13 @@ class LexicalResource:
 		self.lexicons = dict()
 		lexicon_nodes = get_child_elements(xmlnode, 'Lexicon')
 		for node in lexicon_nodes:
-			lexicon = Lexicon.Lexicon(node, language_coding)
+			my_lexicon = lexicon.Lexicon(node, language_coding)
 
 			# is there already a lexicon with same lang?
-			if(lexicon.lang in self.lexicons):
-				self.lexicons[lexicon.lang].merge_with_lexicon(lexicon)
+			if(my_lexicon.lang in self.lexicons):
+				self.lexicons[my_lexicon.lang].merge_with_lexicon(my_lexicon)
 			else:
-				self.lexicons[lexicon.lang] = lexicon
+				self.lexicons[my_lexicon.lang] = my_lexicon
 
 
 	def merge_with_LR(self, anotherLR):
@@ -81,18 +77,14 @@ class LexicalResource:
 		"""
 
 		#
-		# check DTD version
-		#
-		if anotherLR.dtdVersion != self.dtdVersion:
-			raise IncompatibleDTDError(self.dtdVersion, anotherLR.dtdVersion)
-
-		#
 		# merge lexicons
 		#
 		for lang in anotherLR.lexicons:
 			# do I have this language?
 			if lang in self.lexicons:
 				self.lexicons[lang].merge_with_lexicon(anotherLR.lexicons[lang])
+			else:
+				self.lexicons[lang] = anotherLR.lexicons[lang]
 
 
 	def update_DOM(self):

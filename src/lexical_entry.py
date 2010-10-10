@@ -20,8 +20,8 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
-from LmfTools import *
-import SenseList
+from lmf_tools import *
+import sense_list
 
 class LexicalEntry:
 	"""
@@ -37,14 +37,13 @@ class LexicalEntry:
 		self.lemma = get_feat(lemma_elem, 'writtenForm')
 
 		# senses
-		self.sense_list = SenseList.SenseList(xmlnode)
+		self.sense_list = sense_list.SenseList(xmlnode)
 
 
 	def merge_with_lex_entry(self, lentry):
 		# merge senses
-		print 'le bf'
 		self.sense_list.merge_with_senselist(lentry.sense_list)
-		print 'le af'
+
 
 	def build_elem(self, dom):
 		lentry_elem = dom.createElement('LexicalEntry')

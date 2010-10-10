@@ -21,7 +21,7 @@
 #       MA 02110-1301, USA.
 
 from __future__ import division
-from LmfTools import *
+from lmf_tools import *
 
 SENSE_SIMILARITY_THRESHOLD = 0.80
 

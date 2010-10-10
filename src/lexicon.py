@@ -21,9 +21,9 @@
 #       MA 02110-1301, USA.
 
 import xml.dom.minidom
-import LanguageCoding
-import LexicalEntry
-from LmfTools import *
+import language_coding as language_coding_module
+import lexical_entry as lexical_entry_module
+from lmf_tools import *
 
 # detect, if it is an explanatory lexicon, or a translation lexicon
 
@@ -37,7 +37,7 @@ class Lexicon:
 		# parse language
 		#
 		lang = get_feat(xmlnode, 'lang')
-		self.lang = LanguageCoding.to_ISO_639_3(lang, language_coding)
+		self.lang = language_coding_module.to_ISO_639_3(lang, language_coding)
 
 		#
 		# parse lexical entries
@@ -46,7 +46,7 @@ class Lexicon:
 		self.lex_entries = dict()
 
 		for node in lex_entry_nodes:
-			lex_entry = LexicalEntry.LexicalEntry(node)
+			lex_entry = lexical_entry_module.LexicalEntry(node)
 			if lex_entry.pos not in self.lex_entries:
 				self.lex_entries[lex_entry.pos] = dict()
 

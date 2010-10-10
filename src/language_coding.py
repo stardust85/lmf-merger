@@ -21,8 +21,11 @@
 #       MA 02110-1301, USA.
 
 import pycountry
+import lmf_merger
+
 
 def to_ISO_639_3(code, coding):
+	# first try the three-letter codes
 	if coding == 'ISO 639-3' or coding == 'ISO 639-2':
 		try:
 			return pycountry.languages.get(bibliography = code).terminology
@@ -32,19 +35,30 @@ def to_ISO_639_3(code, coding):
 		try:
 			return pycountry.languages.get(terminology = code).terminology
 		except KeyError:
-			return None
+			raise lmf_merger.FatalMergeError('code %s not found in %s' % (code, coding) )
 
-	elif coding == 'ISO-639-1':
-		return pycountry.languages.get(alpha2 = code).terminology
+	elif coding == 'ISO 639-1':
+		try:
+			return pycountry.languages.get(alpha2 = code).terminology
+		except KeyError:
+			raise lmf_merger.FatalMergeError('code %s not found in %s' % (code, coding) )
 
 	# autodetection
 	elif coding == None:
 		if len(code) == 2:
-			return pycountry.languages.get(alpha2 = code).terminology
+			return to_ISO_639_3(code, 'ISO 639-1')
 
 		elif len(code) == 3:
-			return to_ISO_639_3(code, 'ISO-639-3')
+			return to_ISO_639_3(code, 'ISO 639-3')
 
 		# try it as a name
 		else:
-			return pycountry.languages.get(name = code).terminology
+			try:
+				return pycountry.languages.get(name = code).terminology
+			except KeyError:
+				raise lmf_merger.FatalMergeError('Language coding detection failed, unknown code %s' % code)
+
+
+	else:
+		raise lmf_merger.FatalMergeError('Unknown language coding %s' % coding)
+

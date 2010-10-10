@@ -26,7 +26,13 @@ import xml.dom.minidom
 import xml.parsers.expat
 
 # my modules
-import LexicalResource
+import lexical_resource
+
+class FatalMergeError(Exception):
+	def __init__(self, message):
+		self.message = message
+	def __str__(self):
+		return 'FATAL ERROR: ' + self.message
 
 class Enumerate(object):
 	def __init__(self, names):
@@ -38,6 +44,7 @@ msg_types = Enumerate('DEBUG INFO WARNING ERROR')
 class LmfMerger:
 	def __init__(self, gui = None):
 		self.gui = gui
+		self.in_progress = False
 
 	"""
 	Takes two LMF files and merges them into one.
@@ -50,6 +57,7 @@ class LmfMerger:
 		For example 'Sorting numbers...'
 		"""
 		self.my_print(whatToPrint + ' ...', msg_types.INFO, False)
+		self.in_progress = True
 		sys.stdout.flush()
 
 	def end(self):
@@ -57,19 +65,22 @@ class LmfMerger:
 		Prints end of a message with progress. ([DONE])
 		"""
 		self.my_print("\t[DONE]", msg_types.INFO)
+		self.in_progress = False
 
 	def my_print(self, message, type, wrap = True):
 		"""
 		If runs in GUI, prints message to message view.
 		If runs in console, displays it to console.
 		"""
+		if self.in_progress and type == msg_types.ERROR:
+			message = '\n' + message
+		if wrap == True:
+			message = message + '\n'
 		if self.gui == None:
 			if wrap == True:
-				print message
-			else:
-				print message,
+				sys.stdout.write(message)
 		else:
-			self.gui.add_message(message, type, wrap)
+			self.gui.add_message(message, type)
 
 	def merge_files(self, file1, file2, outfile):
 		"""Runs merging"""
@@ -87,18 +98,21 @@ class LmfMerger:
 			self.my_print("XML parsing error: " + str(e))
 			return
 
-		# create lexical resources
-		lr1 = LexicalResource.LexicalResource(dom1.getElementsByTagName('LexicalResource')[0])
-		lr2 = LexicalResource.LexicalResource(dom2.getElementsByTagName('LexicalResource')[0])
-
-		# merge lexical resources
 		try:
-			print 'before merge lr'
+			# create lexical resources
+			self.begin('Extracting data from file ' + file1)
+			lr1 = lexical_resource.LexicalResource(dom1.getElementsByTagName('LexicalResource')[0])
+			self.end()
+			self.begin('Extracting data from file ' + file2)
+			lr2 = lexical_resource.LexicalResource(dom2.getElementsByTagName('LexicalResource')[0])
+			self.end()
+
+			# merge lexical resources
 			lr2.merge_with_LR(lr1)
-			print 'after'
-		except LexicalResource.IncompatibleDTDError as e:
-			self.my_print("Incompatible DTD versions: File %s has version %s, file %s has version %s"
-			% ( file2, e.my_version, file1, e.other_version), msg_types.ERROR);
+
+		except FatalMergeError as e:
+			self.my_print(str(e), msg_types.ERROR)
+			self.my_print('Merging stopped. Please fix the previous error(s) and try it again', msg_types.ERROR)
 			return
 
 		# update dom tree of a result
