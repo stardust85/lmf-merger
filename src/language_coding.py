@@ -25,40 +25,40 @@ import lmf_merger
 
 
 def to_ISO_639_3(code, coding):
-	# first try the three-letter codes
-	if coding == 'ISO 639-3' or coding == 'ISO 639-2':
-		try:
-			return pycountry.languages.get(bibliography = code).terminology
-		except KeyError:
-			pass
+    # first try the three-letter codes
+    if coding == 'ISO 639-3' or coding == 'ISO 639-2':
+        try:
+            return pycountry.languages.get(bibliography = code).terminology
+        except KeyError:
+            pass
 
-		try:
-			return pycountry.languages.get(terminology = code).terminology
-		except KeyError:
-			raise lmf_merger.FatalMergeError('code %s not found in %s' % (code, coding) )
+        try:
+            return pycountry.languages.get(terminology = code).terminology
+        except KeyError:
+            raise lmf_merger.FatalMergeError('code %s not found in %s' % (code, coding) )
 
-	elif coding == 'ISO 639-1':
-		try:
-			return pycountry.languages.get(alpha2 = code).terminology
-		except KeyError:
-			raise lmf_merger.FatalMergeError('code %s not found in %s' % (code, coding) )
+    elif coding == 'ISO 639-1':
+        try:
+            return pycountry.languages.get(alpha2 = code).terminology
+        except KeyError:
+            raise lmf_merger.FatalMergeError('code %s not found in %s' % (code, coding) )
 
-	# autodetection
-	elif coding == None:
-		if len(code) == 2:
-			return to_ISO_639_3(code, 'ISO 639-1')
+    # autodetection
+    elif coding == None:
+        if len(code) == 2:
+            return to_ISO_639_3(code, 'ISO 639-1')
 
-		elif len(code) == 3:
-			return to_ISO_639_3(code, 'ISO 639-3')
+        elif len(code) == 3:
+            return to_ISO_639_3(code, 'ISO 639-3')
 
-		# try it as a name
-		else:
-			try:
-				return pycountry.languages.get(name = code).terminology
-			except KeyError:
-				raise lmf_merger.FatalMergeError('Language coding detection failed, unknown code %s' % code)
+        # try it as a name
+        else:
+            try:
+                return pycountry.languages.get(name = code).terminology
+            except KeyError:
+                raise lmf_merger.FatalMergeError('Language coding detection failed, unknown code %s' % code)
 
 
-	else:
-		raise lmf_merger.FatalMergeError('Unknown language coding %s' % coding)
+    else:
+        raise lmf_merger.FatalMergeError('Unknown language coding %s' % coding)
 

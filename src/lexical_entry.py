@@ -24,41 +24,41 @@ from lmf_tools import *
 import sense_list
 
 class LexicalEntry:
-	"""
-	Class for storing a lexical entry. i.e. sth. like one word.
-	"""
+    """
+    Class for storing a lexical entry. i.e. sth. like one word.
+    """
 
-	def __init__(self, xmlnode):
-		# set part of speech
-		self.pos = get_part_of_speech(xmlnode)
+    def __init__(self, xmlnode):
+        # set part of speech
+        self.pos = get_part_of_speech(xmlnode)
 
-		# set lemma written form
-		lemma_elem = get_child_elements(xmlnode, 'Lemma')[0]
-		self.lemma = get_feat(lemma_elem, 'writtenForm')
+        # set lemma written form
+        lemma_elem = get_child_elements(xmlnode, 'Lemma')[0]
+        self.lemma = get_feat(lemma_elem, 'writtenForm')
 
-		# senses
-		self.sense_list = sense_list.SenseList(xmlnode)
-
-
-	def merge_with_lex_entry(self, lentry):
-		# merge senses
-		self.sense_list.merge_with_senselist(lentry.sense_list)
+        # senses
+        self.sense_list = sense_list.SenseList(xmlnode)
 
 
-	def build_elem(self, dom):
-		lentry_elem = dom.createElement('LexicalEntry')
-		add_feat(dom, lentry_elem, 'partOfSpeech', self.pos)
+    def merge_with_lex_entry(self, lentry, merge_type):
+        # merge senses
+        self.sense_list.merge_with_senselist(lentry.sense_list, merge_type)
 
-		# add lemma
-		lemma_elem = dom.createElement('Lemma')
-		add_feat(dom, lemma_elem, 'writtenForm', self.lemma)
-		lentry_elem.appendChild(lemma_elem)
 
-		# add senses
-		sense_elem_list = self.sense_list.build_elem(dom)
-		print 'sense list:',sense_elem_list
+    def build_elem(self, dom):
+        lentry_elem = dom.createElement('LexicalEntry')
+        add_feat(dom, lentry_elem, 'partOfSpeech', self.pos)
 
-		for sense_elem in sense_elem_list:
-			lentry_elem.appendChild(sense_elem)
+        # add lemma
+        lemma_elem = dom.createElement('Lemma')
+        add_feat(dom, lemma_elem, 'writtenForm', self.lemma)
+        lentry_elem.appendChild(lemma_elem)
 
-		return lentry_elem
+        # add senses
+        sense_elem_list = self.sense_list.build_elem(dom)
+        print 'sense list:',sense_elem_list
+
+        for sense_elem in sense_elem_list:
+            lentry_elem.appendChild(sense_elem)
+
+        return lentry_elem
