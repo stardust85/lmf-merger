@@ -95,7 +95,7 @@ class LmfMerger:
             dom2 = xml.dom.minidom.parse(file2)
             self.end()
         except xml.parsers.expat.ExpatError as e:
-            self.my_print("XML parsing error: " + str(e))
+            self.my_print("XML parsing error: " + str(e), msg_types.ERROR)
             return
 
         try:

@@ -39,12 +39,16 @@ def get_definitions(sense_node):
         'We will use only the first one')
     return definitions
 
-def get_equivalent(sense_node):
+def get_equivalents(sense_node):
     equiv_elements = get_child_elements(sense_node, 'Equivalent')
-    equivs = set()
+    equivs = list()
 
     for equiv_el in equiv_elements:
-        equivs.add(get_feat(equiv_el, 'writtenForm'))
+        value = get_feat(equiv_el, 'writtenForm')
+        if value == None:
+            # TODO do this by LmfMerger.my_print and solve how to pass it here
+            print 'Warning: no equivalent in ' + equiv_el.toxml()
+        equivs.append(value)
     return equivs
 
 
@@ -67,28 +71,34 @@ def compare_definitions(definition1, definition2):
 class SenseList:
     """
     Class for storing a list of senses.
-    Each sense will be represented by its definition, or list of senses.
+    Each sense will be represented by its definition, by list of equivalents,
+    or by list of sub-senses.
+
+    Actual implementation doens't support mixing both definitions and equivalents.
+
     TODO: Implement nested sense lists.
     """
-    def __insert_node_to_deflist(self, sense_node):
-        # does it have a definition, or list of senses?
-        definitions = get_definitions(sense_node)
-        if definitions:
-            self.definitions.add(definitions[0])
-
-        # equivalent
-        equivs = get_equivalents(sense_node)
-        if equivs:
-            self.equivalents.add(equivs[0])
-
-
     def __init__(self, lex_entry_node):
+        """ fills itself by senses from a lexical entry"""
         self.definitions = set()
+        self.equivalents = set()
         sense_nodes = get_child_elements(lex_entry_node, 'Sense')
 
         for sense_node in sense_nodes:
             self.__insert_node_to_deflist(sense_node)
             self.__insert_node_to_equivlist(sense_node)
+
+
+    def __insert_node_to_deflist(self, sense_node):
+        definitions = get_definitions(sense_node)
+        if definitions:
+            self.definitions.add(definitions[0])
+
+    def __insert_node_to_equivlist(self, sense_node):
+        # equivalent
+        equivs = get_equivalents(sense_node)
+        if equivs:
+            self.equivalents.add(equivs[0])
 
 
     def merge_with_senselist(self, senselist, merge_type):
@@ -110,19 +120,20 @@ class SenseList:
 
     def build_elem(self, dom):
         sense_elem_list = list()
-        if merge_type == merge_types.BY_DEFINITION:
+        if self.definitions:
             for definition in self.definition_list:
                 sense_elem = dom.createElement('Sense')
                 definition_elem = dom.createElement('Definition')
                 add_feat(dom, definition_elem, 'text', definition)
                 sense_elem.appendChild(definition_elem)
                 sense_elem_list.append(sense_elem)
-        elif merge_type == merge_types.BY_EQUIVALENT:
+        elif self.equivalents:
+            print self.equivalents
             for equiv in self.equivalents:
                 sense_elem = dom.createElement('Sense')
                 equiv_elem = dom.createElement('Equivalent')
                 add_feat(dom, equiv_elem, 'writtenForm', equiv)
                 sense_elem.appendChild(equiv_elem)
-                sense_elem_list.appen(sense_elem)
+                sense_elem_list.append(sense_elem)
 
         return sense_elem_list
