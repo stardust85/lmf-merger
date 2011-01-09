@@ -30,6 +30,7 @@ merge_types = Enumerate('BY_DEFINITION BY_EQUIVALENT BY_BOTH')
 import xml.dom.minidom
 import language_coding as language_coding_module
 import lexical_entry as lexical_entry_module
+import synset as synset_module
 from lmf_tools import *
 
 class Lexicon:
@@ -61,6 +62,14 @@ class Lexicon:
         #
         self.has_translations = bool(xmlnode.getElementsByTagName('Equivalent'))
         self.has_definitions =  bool(xmlnode.getElementsByTagName('Definition'))
+
+        #
+        # load synsets
+        #
+        ss_elems = xmlnode.getElementsByTagName('Synset')
+        self.ss_list = list()
+        for ss_elem in ss_elems:
+            self.ss_list.append(synset_module.Synset(ss_elem))
 
     def merge_with_lexicon(self, another):
         """Add content of another lexicon to me"""

@@ -23,6 +23,7 @@
 from __future__ import division
 from lmf_tools import *
 from lexicon import merge_types
+import definition as definition_module
 
 SENSE_SIMILARITY_THRESHOLD = 0.80
 
@@ -32,7 +33,7 @@ def get_definitions(sense_node):
     definitions = set()
 
     for definition_el in definition_elements:
-        definitions.add(get_feat(definition_el, 'text'))
+        definitions.add(definition_module.Definition(definition_el))
 
     if len(definitions) > 1:
         self.my_print('Warning: more than one definition in one sense. '+
@@ -50,22 +51,6 @@ def get_equivalents(sense_node):
             print 'Warning: no equivalent in ' + equiv_el.toxml()
         equivs.append(value)
     return equivs
-
-
-def compare_definitions(definition1, definition2):
-    """
-    Returns similarity ranks of two senses.
-    1. TODO removes too frequent words (they don't contain the important things)
-    2. counts how many words from first set is in the second and vice-versa
-
-    """
-    words1 = get_words(definition1)
-    words2 = get_words(definition2)
-
-    common_words = set(words1) & set(words2)
-    # TODO replace this stupid algorithm by something better from nltk
-    return (len(common_words)) / ((len(words1) + len(words2))/2)
-
 
 
 class SenseList:
@@ -110,7 +95,7 @@ class SenseList:
                 has_similar_sense = False
                 for my_definition in self.definition_list:
                     print my_definition, other_definition, compare_definitions(my_definition, other_definition)
-                    if compare_definitions(my_definition, other_definition) > SENSE_SIMILARITY_THRESHOLD:
+                    if my_definition.compare_to(other_definition) > SENSE_SIMILARITY_THRESHOLD:
                         has_similar_sense = True
                 if not has_similar_sense:
                     self.definitions.add(other_definition)
@@ -123,8 +108,7 @@ class SenseList:
         if self.definitions:
             for definition in self.definition_list:
                 sense_elem = dom.createElement('Sense')
-                definition_elem = dom.createElement('Definition')
-                add_feat(dom, definition_elem, 'text', definition)
+                definition_elem = definition.build_elem(dom)
                 sense_elem.appendChild(definition_elem)
                 sense_elem_list.append(sense_elem)
         elif self.equivalents:

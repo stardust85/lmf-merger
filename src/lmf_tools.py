@@ -83,10 +83,11 @@ def get_feats(node):
 
 
 def add_feat(dom, elem, name, value):
-    feat = dom.createElement('feat')
-    feat.setAttribute('att', name)
-    feat.setAttribute('val', value)
-    elem.appendChild(feat)
+    if value != None:
+        feat = dom.createElement('feat')
+        feat.setAttribute('att', name)
+        feat.setAttribute('val', value)
+        elem.appendChild(feat)
 
 
 #def merge_feats(feats1, feats2):
