@@ -24,6 +24,7 @@
 import sys
 import xml.dom.minidom
 import xml.parsers.expat
+import argparse
 
 # my modules
 import lexical_resource
@@ -148,7 +149,7 @@ def main():
     # input and output files
     file1 = sys.argv[1]
     file2 = sys.argv[2]
-    outfile = 'lmf-merger_OUTPUT/' + sys.argv[3]
+    outfile = sys.argv[3]
 
     merger = LmfMerger()
     merger.merge_files(file1, file2, outfile)
