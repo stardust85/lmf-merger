@@ -72,13 +72,13 @@ class LmfMerger:
         If runs in GUI, prints message to message view.
         If runs in console, displays it to console.
         """
+        # create newline if was in progress but failed
         if self.in_progress and type == msg_types.ERROR:
             message = '\n' + message
         if wrap == True:
             message = message + '\n'
-        if self.gui == None:
-            if wrap == True:
-                sys.stdout.write(message)
+        if self.gui is None:
+            sys.stdout.write(message)
         else:
             self.gui.add_message(message, type)
 
