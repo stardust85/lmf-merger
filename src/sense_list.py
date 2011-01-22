@@ -20,7 +20,7 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
-from __future__ import division
+
 from lmf_tools import *
 from lexicon import merge_types
 import definition as definition_module
@@ -30,10 +30,10 @@ SENSE_SIMILARITY_THRESHOLD = 0.80
 
 def get_definitions(sense_node):
     definition_elements = get_child_elements(sense_node, 'Definition')
-    definitions = set()
+    definitions = list()
 
     for definition_el in definition_elements:
-        definitions.add(definition_module.Definition(definition_el))
+        definitions.append(definition_module.Definition(definition_el))
 
     if len(definitions) > 1:
         self.my_print('Warning: more than one definition in one sense. '+
@@ -91,10 +91,10 @@ class SenseList:
         Merges senses from first node to second.
         """
         if merge_type == merge_types.BY_DEFINITION:
-            for other_definition in senselist.definition_list:
+            for other_definition in senselist.definitions:
                 has_similar_sense = False
-                for my_definition in self.definition_list:
-                    print my_definition, other_definition, compare_definitions(my_definition, other_definition)
+                for my_definition in self.definitions:
+                    print my_definition, other_definition, my_definition.compare_to(other_definition)
                     if my_definition.compare_to(other_definition) > SENSE_SIMILARITY_THRESHOLD:
                         has_similar_sense = True
                 if not has_similar_sense:
@@ -106,7 +106,7 @@ class SenseList:
     def build_elem(self, dom):
         sense_elem_list = list()
         if self.definitions:
-            for definition in self.definition_list:
+            for definition in self.definitions:
                 sense_elem = dom.createElement('Sense')
                 definition_elem = definition.build_elem(dom)
                 sense_elem.appendChild(definition_elem)

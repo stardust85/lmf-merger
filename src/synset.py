@@ -21,7 +21,7 @@
 #       MA 02110-1301, USA.
 
 import definition as definition_module
-impor lmf_tools
+import lmf_tools
 
 class Synset:
     """

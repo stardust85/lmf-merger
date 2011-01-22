@@ -24,7 +24,6 @@
 import sys
 import xml.dom.minidom
 import xml.parsers.expat
-import argparse
 
 # my modules
 import lexical_resource

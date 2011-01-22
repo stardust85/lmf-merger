@@ -20,11 +20,17 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
+
+from __future__ import division
+from lmf_tools import *
+
 DEF_SIMILARITY_THRESHOLD = 0.80
+
+
 
 class Definition:
     def __init__(self, xmlnode):
-        self.text = get_feat(definition_el, 'text')
+        self.text = get_feat(xmlnode, 'text')
 
     def compare_to(self, other):
         """
@@ -33,8 +39,8 @@ class Definition:
         2. counts how many words from first set is in the second and vice-versa
 
         """
-        words1 = get_words(definition1)
-        words2 = get_words(definition2)
+        words1 = get_words(self.text)
+        words2 = get_words(other.text)
 
         common_words = set(words1) & set(words2)
         # TODO replace this stupid algorithm by something better from nltk

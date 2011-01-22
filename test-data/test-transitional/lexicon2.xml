@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE LexicalResource SYSTEM "http://www.tagmatica.fr/lmf/DTD_LMF_REV_16.dtd">
+<!DOCTYPE LexicalResource PUBLIC "-//ISO//DTD LMF 16//EN" "http://www.tagmatica.fr/lmf/DTD_LMF_REV_16.dtd">
 <LexicalResource dtdVersion="16">
     <GlobalInformation>
         <feat att="languageCoding" val="ISO 639-3"/>
