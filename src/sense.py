@@ -56,7 +56,7 @@ class Sense:
         if compare_type == merge_types.BY_DEFINITION:
             return self.definitions[0].compare_to(other.definitions[0])
         else if compare_type == merge_types.BY_EQUIVALENT:
-            return
+            return self.equivalents.equals_to(other.equivalents)
 
     def merge_with_sense(self, sense):
         # synset id will not be present while merging equivs, since we

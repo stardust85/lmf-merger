@@ -31,4 +31,18 @@ class EquivalentSet:
             lang = get_feat(equiv_elem, 'lang')
             lang is None:
                 lang = 'missing'
+            else:
+                lang = to_ISO_639_3(lang, global_info.get('language_coding')):
             writtenform = get_feat(equiv_elem, 'writtenForm')
+
+            self.equivalent_set.add( (lang, writtenform) )
+
+    def equals(self, another):
+        """
+        Equivalent sets (of the same lemma) are equal,
+        iff atleast one translation is equal.
+        """
+        return bool(self & another)
+
+    def merge_with_another(self, another):
+        self.equivalent_set |= another
