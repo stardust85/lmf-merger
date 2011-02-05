@@ -54,15 +54,13 @@ class LexicalResource:
         gi_node = get_child_elements(xmlnode, 'GlobalInformation')[0]
         self.global_info = get_feats(gi_node)
         # language coding
-        language_coding = None
-        if 'languageCoding' in self.global_info:
-            language_coding = self.global_info['languageCoding']
+        language_coding = self.global_info.get('languageCoding')
 
         # read lexicons
         self.lexicons = dict()
         lexicon_nodes = get_child_elements(xmlnode, 'Lexicon')
         for node in lexicon_nodes:
-            my_lexicon = lexicon.Lexicon(node, language_coding)
+            my_lexicon = lexicon.Lexicon(node, self.global_info)
 
             # is there already a lexicon with same lang?
             if(my_lexicon.lang in self.lexicons):

@@ -89,6 +89,11 @@ def add_feat(dom, elem, name, value):
         feat.setAttribute('val', value)
         elem.appendChild(feat)
 
+def get_lang(xmlnode):
+    """
+    returns ISO-639-3 code of a language
+    """
+    pass
 
 #def merge_feats(feats1, feats2):
 ##  Merges feats1 to feats2. Returns merged feats2.

@@ -27,6 +27,8 @@ class Enumerate(object):
 
 merge_types = Enumerate('BY_DEFINITION BY_EQUIVALENT BY_BOTH')
 
+from collections import OrderedDict
+
 import xml.dom.minidom
 import language_coding as language_coding_module
 import lexical_entry as lexical_entry_module
@@ -37,12 +39,12 @@ class Lexicon:
     """
     Class for storing a LMF lexicon.
     """
-    def __init__(self, xmlnode, language_coding):
+    def __init__(self, xmlnode, global_info):
         #
         # parse language
         #
         lang = get_feat(xmlnode, 'lang')
-        self.lang = language_coding_module.to_ISO_639_3(lang, language_coding)
+        self.lang = language_coding_module.to_ISO_639_3(lang, global_info.get('language_coding'))
 
         #
         # parse lexical entries
@@ -51,7 +53,7 @@ class Lexicon:
         self.lex_entries = dict()
 
         for node in lex_entry_nodes:
-            lex_entry = lexical_entry_module.LexicalEntry(node)
+            lex_entry = lexical_entry_module.LexicalEntry(node, global_info)
             if lex_entry.pos not in self.lex_entries:
                 self.lex_entries[lex_entry.pos] = dict()
 
@@ -67,9 +69,18 @@ class Lexicon:
         # load synsets
         #
         ss_elems = xmlnode.getElementsByTagName('Synset')
-        self.ss_list = list()
+        self.synsets = OrderedDict()
         for ss_elem in ss_elems:
-            self.ss_list.append(synset_module.Synset(ss_elem))
+            ss = synset_module.Synset(ss_elem)
+            self.synsets[ss.old_id] = ss
+
+    def update_synset_id(old_id, new_id):
+        for pos in lex_entries:
+            for lex_entry in lex_entries[pos]:
+                for sense in sense_list:
+                    if sense.synset_id == old_id:
+                        sense.synset_id == new_id
+
 
     def merge_with_lexicon(self, another):
         """Add content of another lexicon to me"""
@@ -105,7 +116,7 @@ class Lexicon:
                         self.lex_entries[pos][lemma].merge_with_lex_entry(another.lex_entries[pos][lemma], merge_type)
                     else:
                         # add it
-                        self.lex_entries[pos][lemma] = another_lexicon.lex_entries[pos][lemma]
+                        self.lex_entries[pos][lemma] = another.lex_entries[pos][lemma]
 
 
     def build_elem(self, dom):

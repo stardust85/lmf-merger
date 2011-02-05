@@ -46,6 +46,15 @@ class Definition:
         # TODO replace this stupid algorithm by something better from nltk
         return (len(common_words)) / ((len(words1) + len(words2))/2)
 
+    def equals_to(self, other):
+        return self.text == other.text
+
+    def __eq__(self, other):
+        return self.equals_to(other)
+
+    def __hash__(self):
+        return self.text
+
     def build_elem(self, dom):
         def_elem = dom.createElement('Definition')
         add_feat(dom, def_elem, 'text', self.text)

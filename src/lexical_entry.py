@@ -28,7 +28,7 @@ class LexicalEntry:
     Class for storing a lexical entry. i.e. sth. like one word.
     """
 
-    def __init__(self, xmlnode):
+    def __init__(self, xmlnode, global_info):
         # set part of speech
         self.pos = get_part_of_speech(xmlnode)
 
@@ -37,13 +37,11 @@ class LexicalEntry:
         self.lemma = get_feat(lemma_elem, 'writtenForm')
 
         # senses
-        self.sense_list = sense_list.SenseList(xmlnode)
-
+        self.sense_list = sense_list.SenseList(xmlnode, global_info)
 
     def merge_with_lex_entry(self, lentry, merge_type):
         # merge senses
         self.sense_list.merge_with_senselist(lentry.sense_list, merge_type)
-
 
     def build_elem(self, dom):
         lentry_elem = dom.createElement('LexicalEntry')

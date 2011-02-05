@@ -24,6 +24,7 @@
 from lmf_tools import *
 from lexicon import merge_types
 import definition as definition_module
+import sense as sense_module
 
 SENSE_SIMILARITY_THRESHOLD = 0.80
 
@@ -63,44 +64,35 @@ class SenseList:
 
     TODO: Implement nested sense lists.
     """
-    def __init__(self, lex_entry_node):
+    def __init__(self, lex_entry_node, global_info):
         """ fills itself by senses from a lexical entry"""
-        self.definitions = set()
-        self.equivalents = set()
+        self.senses = set()
+
         sense_nodes = get_child_elements(lex_entry_node, 'Sense')
 
         for sense_node in sense_nodes:
-            self.__insert_node_to_deflist(sense_node)
-            self.__insert_node_to_equivlist(sense_node)
+            self.senses.add(sense_module.Sense(self, sense_node, global_info)
 
 
-    def __insert_node_to_deflist(self, sense_node):
-        definitions = get_definitions(sense_node)
-        if definitions:
-            self.definitions.add(definitions[0])
-
-    def __insert_node_to_equivlist(self, sense_node):
-        # equivalent
-        equivs = get_equivalents(sense_node)
-        if equivs:
-            self.equivalents.add(equivs[0])
-
-
-    def merge_with_senselist(self, senselist, merge_type):
+    def merge_with_senselist(self, other_list, merge_type):
         """
         Merges senses from first node to second.
         """
-        if merge_type == merge_types.BY_DEFINITION:
-            for other_definition in senselist.definitions:
-                has_similar_sense = False
-                for my_definition in self.definitions:
-                    print my_definition, other_definition, my_definition.compare_to(other_definition)
-                    if my_definition.compare_to(other_definition) > SENSE_SIMILARITY_THRESHOLD:
-                        has_similar_sense = True
-                if not has_similar_sense:
-                    self.definitions.add(other_definition)
-        elif merge_type == merge_types.BY_EQUIVALENT:
-            self.equivalents |= senselist.equivalents
+        has_similar_sense = False
+        for other_sense in other_list:
+            for my_sense in self.senses:
+                if my_sense.compare_to(other_sense) > SENSE_SIMILARITY_THRESHOLD:
+        #~ if merge_type == merge_types.BY_DEFINITION:
+            #~ for other_definition in senselist.definitions:
+                #~ has_similar_sense = False
+                #~ for my_definition in self.definitions:
+                    #~ print my_definition, other_definition, my_definition.compare_to(other_definition)
+                    #~ if my_definition.compare_to(other_definition) > SENSE_SIMILARITY_THRESHOLD:
+                        #~ has_similar_sense = True
+                #~ if not has_similar_sense:
+                    #~ self.definitions.add(other_definition)
+        #~ elif merge_type == merge_types.BY_EQUIVALENT:
+            #~ self.equivalents |= senselist.equivalents
 
 
     def build_elem(self, dom):
