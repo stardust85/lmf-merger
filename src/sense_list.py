@@ -25,6 +25,7 @@ from lmf_tools import *
 from lexicon import merge_types
 import definition as definition_module
 import sense as sense_module
+import equivalent_set as equivalent_set_module
 
 SENSE_SIMILARITY_THRESHOLD = 0.80
 
@@ -40,18 +41,6 @@ def get_definitions(sense_node):
         self.my_print('Warning: more than one definition in one sense. '+
         'We will use only the first one')
     return definitions
-
-def get_equivalents(sense_node):
-    equiv_elements = get_child_elements(sense_node, 'Equivalent')
-    equivs = list()
-
-    for equiv_el in equiv_elements:
-        value = get_feat(equiv_el, 'writtenForm')
-        if value == None:
-            # TODO do this by LmfMerger.my_print and solve how to pass it here
-            print 'Warning: no equivalent in ' + equiv_el.toxml()
-        equivs.append(value)
-    return equivs
 
 
 class SenseList:
@@ -71,45 +60,36 @@ class SenseList:
         sense_nodes = get_child_elements(lex_entry_node, 'Sense')
 
         for sense_node in sense_nodes:
-            self.senses.add(sense_module.Sense(self, sense_node, global_info)
+            self.senses.add(sense_module.Sense(sense_node, global_info))
 
 
     def merge_with_senselist(self, other_list, merge_type):
         """
         Merges senses from first node to second.
         """
-        has_similar_sense = False
-        for other_sense in other_list:
-            for my_sense in self.senses:
-                if my_sense.compare_to(other_sense) > SENSE_SIMILARITY_THRESHOLD:
-        #~ if merge_type == merge_types.BY_DEFINITION:
-            #~ for other_definition in senselist.definitions:
-                #~ has_similar_sense = False
-                #~ for my_definition in self.definitions:
-                    #~ print my_definition, other_definition, my_definition.compare_to(other_definition)
-                    #~ if my_definition.compare_to(other_definition) > SENSE_SIMILARITY_THRESHOLD:
-                        #~ has_similar_sense = True
-                #~ if not has_similar_sense:
-                    #~ self.definitions.add(other_definition)
-        #~ elif merge_type == merge_types.BY_EQUIVALENT:
-            #~ self.equivalents |= senselist.equivalents
+        if merge_type == merge_types.BY_DEFINITION:
+            for other_sense in other_list.senses:
+                has_similar_sense = False
+                for my_sense in self.senses:
+                    if my_sense.compare_to(other_sense, merge_type) > SENSE_SIMILARITY_THRESHOLD:
+                        has_similar_sense = True
+                if not has_similar_sense:
+                    self.senses.add(other_sense)
+
+        elif merge_type == merge_types.BY_EQUIVALENT:
+            for other_sense in other_list.senses:
+                has_similar_sense = False
+                for my_sense in self.senses:
+                    if my_sense.equals_to(other_sense, merge_type):
+                        my_sense.merge_with_sense(other_sense)
+                        has_similar_sense = True
+                if not has_similar_sense:
+                    self.senses.add(other_sense)
 
 
-    def build_elem(self, dom):
+    def build_elems(self, dom):
         sense_elem_list = list()
-        if self.definitions:
-            for definition in self.definitions:
-                sense_elem = dom.createElement('Sense')
-                definition_elem = definition.build_elem(dom)
-                sense_elem.appendChild(definition_elem)
-                sense_elem_list.append(sense_elem)
-        elif self.equivalents:
-            print self.equivalents
-            for equiv in self.equivalents:
-                sense_elem = dom.createElement('Sense')
-                equiv_elem = dom.createElement('Equivalent')
-                add_feat(dom, equiv_elem, 'writtenForm', equiv)
-                sense_elem.appendChild(equiv_elem)
-                sense_elem_list.append(sense_elem)
+        for sense in self.senses:
+            sense_elem_list.append(sense.build_elem(dom))
 
         return sense_elem_list

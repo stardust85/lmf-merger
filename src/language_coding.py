@@ -28,7 +28,7 @@ def to_ISO_639_3(code, coding):
     # first try the three-letter codes
     if coding == 'ISO 639-3' or coding == 'ISO 639-2':
         try:
-            return pycountry.languages.get(bibliography = code).terminology
+            return pycountry.languages.get(bibliographic = code).terminology
         except KeyError:
             pass
 

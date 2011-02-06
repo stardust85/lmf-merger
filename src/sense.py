@@ -21,6 +21,7 @@
 #       MA 02110-1301, USA.
 
 from lmf_tools import *
+from lexicon import merge_types
 import definition as definition_module
 import equivalent_set as equivalent_set_module
 
@@ -29,37 +30,49 @@ class Sense:
         #
         # synset ID
         #
-        self.synset_id = None
-        if 'synset' in xmlnode.attributes:
-            self.synset_id = xmlnode.attributes['synset']
+        self.synset_id = xmlnode.attributes.get('synset')
 
         #
         # definitions
         #
-        definition_elements = get_child_elements(sense_node, 'Definition')
+        definition_elements = get_child_elements(xmlnode, 'Definition')
         self.definitions = list()
 
         for definition_el in definition_elements:
             self.definitions.append(definition_module.Definition(definition_el))
 
-        if len(definitions) > 1:
-            self.my_print('Warning: more than one definition in one sense. '+
-            'We will use only the first one')
-
         #
         # equivalents - mapping each lang to its written form
         #
-        self.equivalents = equivalent__set_module.EquivalentSet(xmlnode, global_info)
+        self.equivalents = equivalent_set_module.EquivalentSet(xmlnode, global_info)
 
     def compare_to(self, other, compare_type):
         """ how much are the senses equal """
         if compare_type == merge_types.BY_DEFINITION:
             return self.definitions[0].compare_to(other.definitions[0])
-        else if compare_type == merge_types.BY_EQUIVALENT:
+
+    def equals_to(self, other, compare_type):
+        """only for equiv"""
+        if compare_type == merge_types.BY_EQUIVALENT:
             return self.equivalents.equals_to(other.equivalents)
 
-    def merge_with_sense(self, sense):
-        # synset id will not be present while merging equivs, since we
-        # don't suppport both explicatory and translational in one file
+    def merge_with_sense(self, other):
+        self.equivalents.merge_with_another(other.equivalents)
 
-        #
+    def build_elem(self, dom):
+        sense_elem = dom.createElement('Sense')
+
+        # add synset id
+        if not self.synset_id is None:
+            sense_elem.setAttribute('synset', self.synset_id)
+
+        # add definitions
+        for definition in self.definitions:
+            sense_elem.appendChild(definition.build_elem(dom))
+
+        # add equivalents
+        equiv_elems = self.equivalents.build_elems(dom)
+        for equiv_elem in equiv_elems:
+            sense_elem.appendChild(equiv_elem)
+
+        return sense_elem

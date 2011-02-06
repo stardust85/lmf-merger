@@ -27,8 +27,6 @@ class Enumerate(object):
 
 merge_types = Enumerate('BY_DEFINITION BY_EQUIVALENT BY_BOTH')
 
-from collections import OrderedDict
-
 import xml.dom.minidom
 import language_coding as language_coding_module
 import lexical_entry as lexical_entry_module
@@ -69,7 +67,7 @@ class Lexicon:
         # load synsets
         #
         ss_elems = xmlnode.getElementsByTagName('Synset')
-        self.synsets = OrderedDict()
+        self.synsets = dict()
         for ss_elem in ss_elems:
             ss = synset_module.Synset(ss_elem)
             self.synsets[ss.old_id] = ss

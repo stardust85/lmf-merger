@@ -14,12 +14,14 @@
 			</Lemma>
 			<Sense>
 				<Equivalent>
-					<feat att="writtenForm" val="pokutovat"/>
+					<feat att="lang" val="ces"/>
+					<feat att="writtenForm" val="zarezervovat"/>
 				</Equivalent>
 			</Sense>
 			<Sense>
 				<Equivalent>
-					<feat att="writtenForm" val="zarezervovat"/>
+					<feat att="lang" val="ces"/>
+					<feat att="writtenForm" val="pokutovat"/>
 				</Equivalent>
 			</Sense>
 		</LexicalEntry>
@@ -30,6 +32,7 @@
 			</Lemma>
 			<Sense>
 				<Equivalent>
+					<feat att="lang" val="ces"/>
 					<feat att="writtenForm" val="kniha"/>
 				</Equivalent>
 			</Sense>

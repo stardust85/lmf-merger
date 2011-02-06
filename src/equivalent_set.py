@@ -22,27 +22,42 @@
 
 from lmf_tools import *
 from language_coding import *
+import collections
+
+Equiv = collections.namedtuple('Equiv', 'lang, writtenForm')
 
 class EquivalentSet:
+    """
+    Converts sense xml node to set of tuples (lang, equiv_written_form),
+    and back. Allows merges and comparisons.
+    """
     def __init__(self, xmlnode, global_info):
         self.equivalent_set = set()
         equiv_elems = get_child_elements(xmlnode, 'Equivalent')
         for equiv_elem in equiv_elems:
             lang = get_feat(equiv_elem, 'lang')
-            lang is None:
-                lang = 'missing'
-            else:
-                lang = to_ISO_639_3(lang, global_info.get('language_coding')):
+            lang = to_ISO_639_3(lang, global_info.get('languageCoding'))
             writtenform = get_feat(equiv_elem, 'writtenForm')
 
-            self.equivalent_set.add( (lang, writtenform) )
+            self.equivalent_set.add( Equiv(lang, writtenform) )
 
-    def equals(self, another):
+    def equals_to(self, another):
         """
         Equivalent sets (of the same lemma) are equal,
         iff atleast one translation is equal.
         """
-        return bool(self & another)
+        return bool(self.equivalent_set & another.equivalent_set)
 
     def merge_with_another(self, another):
-        self.equivalent_set |= another
+        self.equivalent_set |= another.equivalent_set
+
+    def build_elems(self, dom):
+        elems = list()
+        for equiv in self.equivalent_set:
+            elem = dom.createElement('Equivalent')
+            if not equiv.lang is None:
+                add_feat(dom, elem, 'lang', equiv.lang)
+            add_feat(dom, elem, 'writtenForm', equiv.writtenForm)
+            elems.append(elem)
+
+        return elems

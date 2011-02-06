@@ -53,6 +53,7 @@ class LexicalResource:
         #
         gi_node = get_child_elements(xmlnode, 'GlobalInformation')[0]
         self.global_info = get_feats(gi_node)
+
         # language coding
         language_coding = self.global_info.get('languageCoding')
 

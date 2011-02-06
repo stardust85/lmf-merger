@@ -53,8 +53,7 @@ class LexicalEntry:
         lentry_elem.appendChild(lemma_elem)
 
         # add senses
-        sense_elem_list = self.sense_list.build_elem(dom)
-        print 'sense list:',sense_elem_list
+        sense_elem_list = self.sense_list.build_elems(dom)
 
         for sense_elem in sense_elem_list:
             lentry_elem.appendChild(sense_elem)
