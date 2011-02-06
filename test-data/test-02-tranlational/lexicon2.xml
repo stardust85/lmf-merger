@@ -13,6 +13,10 @@
             </Lemma>
             <Sense>
                 <Equivalent>
+                    <feat att='lang' val='deu'/>
+                    <feat att='writtenForm' val ='kniha'/>
+                </Equivalent>
+                <Equivalent>
                     <feat att='lang' val='cze'/>
                     <feat att='writtenForm' val ='kniha'/>
                 </Equivalent>
