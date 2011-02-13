@@ -38,6 +38,7 @@ class Synset:
         def_elem = get_child_elements(xmlnode, 'Definition')[0]
         self.definition = definition_module.Definition(def_elem)
         self.old_id = xmlnode.attributes.get('id')
+        self.new_id = None
 
     def equals_to(self, other):
         return self.definition.equals_to(other.definition)
@@ -47,6 +48,9 @@ class Synset:
 
     def __hash__(self):
         return self.definition.__hash__()
+        
+    def compare_to(self, other):
+		return self.definition.compare_to(other.definition)
 
     def build_elem(self, dom, lmf_id):
         elem = dom.createElement('Synset')
