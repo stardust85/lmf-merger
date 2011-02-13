@@ -20,7 +20,7 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
-import definition as definition_module
+import definition_set as definition_set_module
 from lmf_tools import *
 
 class Synset:
@@ -34,26 +34,27 @@ class Synset:
     the meanings of oak and oak tree that are considered as synonymous.
     """
 
-    def __init__(self, xmlnode):
-        def_elem = get_child_elements(xmlnode, 'Definition')[0]
-        self.definition = definition_module.Definition(def_elem)
-        self.old_id = xmlnode.attributes.get('id')
+    def __init__(self, xmlnode, global_info):
+        self.definitions = definition_set_module.DefinitionSet(xmlnode, global_info)
+        self.old_id = xmlnode.getAttribute('id')
         self.new_id = None
 
     def equals_to(self, other):
-        return self.definition.equals_to(other.definition)
+        return self.definitions.equals_to(other.definitions)
 
     def __eq__(self, other):
         return equals_to(self, other)
 
     def __hash__(self):
-        return self.definition.__hash__()
+        return self.definitions.__hash__()
         
     def compare_to(self, other):
-		return self.definition.compare_to(other.definition)
+        return self.definitions.compare_to(other.definitions)
 
     def build_elem(self, dom, lmf_id):
         elem = dom.createElement('Synset')
         add_feat(dom, lexicon_elem, 'id', lmf_id)
-        def_elem = self.definition.build_elem(dom)
-        elem.appendChild(self.definition.build_elem())
+        for definition_el in self.definitions.build_elems(dom):
+            sense_elem.appendChild(definition_el)
+
+

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#       untitled.py
+#       $$
 #
 #       Copyright 2011 Michel Samia <m.samia@seznam.cz>
 #
@@ -29,7 +29,7 @@ DEF_SIMILARITY_THRESHOLD = 0.80
 
 
 class Definition:
-    def __init__(self, xmlnode):
+    def __init__(self, xmlnode, global_info):
         self.text = get_feat(xmlnode, 'text')
 
     def compare_to(self, other):

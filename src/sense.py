@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#       untitled.py
+#       $$
 #
 #       Copyright 2011 Michel Samia <m.samia@seznam.cz>
 #
@@ -22,24 +22,28 @@
 
 from lmf_tools import *
 from lexicon import merge_types
-import definition as definition_module
+import definition_set as definition_set_module
 import equivalent_set as equivalent_set_module
 
 class Sense:
-    def __init__(self, xmlnode, global_info):
+    def __init__(self, xmlnode, global_info, lexicon):
         #
         # synset ID
         #
-        self.synset_id = xmlnode.attributes.get('synset')
+        if xmlnode.hasAttribute('synset'):
+            self.synset_id = xmlnode.getAttribute('synset')
+            self.synset = lexicon.synsets[self.synset_id]
+        else:
+            self.synset_id = None
+            self.synset = None
 
         #
         # definitions
         #
-        definition_elements = get_child_elements(xmlnode, 'Definition')
-        self.definitions = list()
-
-        for definition_el in definition_elements:
-            self.definitions.append(definition_module.Definition(definition_el))
+        if self.synset is None:
+            self.definitions = definition_set_module.DefinitionSet(xmlnode, global_info)
+        else:
+            self.definitions = self.synset.definitions
 
         #
         # equivalents - mapping each lang to its written form
@@ -49,12 +53,14 @@ class Sense:
     def compare_to(self, other, compare_type):
         """ how much are the senses equal """
         if compare_type == merge_types.BY_DEFINITION:
-            return self.definitions[0].compare_to(other.definitions[0])
+            return self.definitions.compare_to(other.definitions)
 
     def equals_to(self, other, compare_type):
         """only for equiv"""
         if compare_type == merge_types.BY_EQUIVALENT:
             return self.equivalents.equals_to(other.equivalents)
+        elif compare_type == merge_types.BY_DEFINITION:
+            return self.definitions.equals_to(other.definitions)
 
     def merge_with_sense(self, other):
         self.equivalents.merge_with_another(other.equivalents)
@@ -67,8 +73,9 @@ class Sense:
             sense_elem.setAttribute('synset', self.synset_id)
 
         # add definitions
-        for definition in self.definitions:
-            sense_elem.appendChild(definition.build_elem(dom))
+        if self.synset is None:
+            for definition_el in self.definitions.build_elems(dom):
+                sense_elem.appendChild(definition_el)
 
         # add equivalents
         equiv_elems = self.equivalents.build_elems(dom)

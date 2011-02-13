@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#       LexicalResource.py
+#       $$
 #
 #       Copyright 2010 Michel Samia <m.samia@seznam.cz>
 #
@@ -39,9 +39,9 @@ class LexicalResource:
         Reads information from LMF root node into python data structures.
         """
         # read DTD version
-        try:
+        if xmlnode.hasAttribute('dtdVersion'):
             self.dtdVersion = xmlnode.attributes['dtdVersion'].value
-        except KeyError:
+        else:
             self.dtdVersion = None
 
         # only version 16 supported for now

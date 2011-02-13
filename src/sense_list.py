@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#       untitled.py
+#       $$
 #
 #       Copyright 2010 Michel Samia <m.samia@seznam.cz>
 #
@@ -30,19 +30,6 @@ import equivalent_set as equivalent_set_module
 SENSE_SIMILARITY_THRESHOLD = 0.80
 
 
-def get_definitions(sense_node):
-    definition_elements = get_child_elements(sense_node, 'Definition')
-    definitions = list()
-
-    for definition_el in definition_elements:
-        definitions.append(definition_module.Definition(definition_el))
-
-    if len(definitions) > 1:
-        self.my_print('Warning: more than one definition in one sense. '+
-        'We will use only the first one')
-    return definitions
-
-
 class SenseList:
     """
     Class for storing a list of senses.
@@ -53,14 +40,14 @@ class SenseList:
 
     TODO: Implement nested sense lists.
     """
-    def __init__(self, lex_entry_node, global_info):
+    def __init__(self, lex_entry_node, global_info, lexicon):
         """ fills itself by senses from a lexical entry"""
         self.senses = set()
 
         sense_nodes = get_child_elements(lex_entry_node, 'Sense')
 
         for sense_node in sense_nodes:
-            self.senses.add(sense_module.Sense(sense_node, global_info))
+            self.senses.add(sense_module.Sense(sense_node, global_info, lexicon))
 
 
     def merge_with_senselist(self, other_list, merge_type):

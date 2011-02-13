@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#       untitled.py
+#       $$
 #
 #       Copyright 2010 Michel Samia <m.samia@seznam.cz>
 #
@@ -28,7 +28,7 @@ class LexicalEntry:
     Class for storing a lexical entry. i.e. sth. like one word.
     """
 
-    def __init__(self, xmlnode, global_info):
+    def __init__(self, xmlnode, global_info, lexicon):
         # set part of speech
         self.pos = get_part_of_speech(xmlnode)
 
@@ -37,7 +37,7 @@ class LexicalEntry:
         self.lemma = get_feat(lemma_elem, 'writtenForm')
 
         # senses
-        self.sense_list = sense_list.SenseList(xmlnode, global_info)
+        self.sense_list = sense_list.SenseList(xmlnode, global_info, lexicon)
 
     def merge_with_lex_entry(self, lentry, merge_type):
         # merge senses

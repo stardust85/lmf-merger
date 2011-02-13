@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#       LmfMerger2.py
+#       $$
 #
 #       Copyright 2010 Michel Samia <m.samia@seznam.cz>
 #

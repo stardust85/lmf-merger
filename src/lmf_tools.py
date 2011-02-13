@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#       LmfTools.py
+#       $$
 #
 #       Copyright 2010 Michel Samia <m.samia@seznam.cz>
 #
@@ -24,13 +24,13 @@ import xml.dom
 import re
 
 def get_new_id(existing_ids, colliding_id):
-	new_id_found = False
-	i = 1
-	while not new_id_found:
-		another_synset_id_new = another_synset_id + '_coll' + str(i)
-		if another_synset_id_new not in self.synsets:
-			return another_synset_id_new
-		i += 1
+    new_id_found = False
+    i = 1
+    while not new_id_found:
+        another_synset_id_new = another_synset_id + '_coll' + str(i)
+        if another_synset_id_new not in self.synsets:
+            return another_synset_id_new
+        i += 1
 
 def get_words(text):
     """

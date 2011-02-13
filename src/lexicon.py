@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#       Lexicon.py
+#       $$
 #
 #       Copyright 2010 Michel Samia <m.samia@seznam.cz>
 #
@@ -50,7 +50,7 @@ class Lexicon:
         ss_elems = xmlnode.getElementsByTagName('Synset')
         self.synsets = dict()
         for ss_elem in ss_elems:
-            ss = synset_module.Synset(ss_elem)
+            ss = synset_module.Synset(ss_elem, global_info)
             self.synsets[ss.old_id] = ss
 
         #
@@ -60,7 +60,7 @@ class Lexicon:
         self.lex_entries = dict()
 
         for node in lex_entry_nodes:
-            lex_entry = lexical_entry_module.LexicalEntry(node, self)
+            lex_entry = lexical_entry_module.LexicalEntry(node, global_info, self)
             if lex_entry.pos not in self.lex_entries:
                 self.lex_entries[lex_entry.pos] = dict()
 
@@ -71,10 +71,10 @@ class Lexicon:
         #
         self.has_translations = bool(xmlnode.getElementsByTagName('Equivalent'))
         self.has_definitions =  bool(xmlnode.getElementsByTagName('Definition'))
-        
+
 
     def update_synset_id(old_id, new_id):
-		"""updates all references to the synset to its new id"""
+        """updates all references to the synset to its new id"""
         for pos in lex_entries:
             for lex_entry in lex_entries[pos]:
                 for sense in lex_entry.sense_list:
@@ -95,34 +95,37 @@ class Lexicon:
         elif self.has_definitions and another.has_definitions:
             merge_type = merge_types.BY_DEFINITION
 
-		#
-		# merge synsets
-		#
-		
-		# merge only (i.e. remove duplicities)
-		for another_synset_id in another.synsets:
-			we_have_it = False
-			# test whether we have it
-			for my_synset_id in self.synsets:
-				if self.synsets[my_synset_id].equals_to(another.synsets[another_synset_id]):
-					we_have_it = True
-					break
-			
-			if we_have_it:
-				# change its new id to be compatible
-				another.synsets[another_synset_id].new_id = my_synset.old_id
-				# update synset references in another
-				another.update_synset_id(another_synset_id, my_synset.old_id)
-			# we will add it, but with a new id
-			else:
-				# we have a collision of IDs - add 
-				if another_synset_id in self.synsets:
-					new_id = get_new_id(self.synsets, another_synset_id)
-					another.synsets[another_synset_id].new_id = new_id
-					ahother.update_synset_id(another_synset_id, new_id)
-				
-				self.synsets[new_id] = another.synsets[another_synset_id]
-		
+        #
+        # merge synsets
+        #
+
+        # merge only (i.e. remove duplicities)
+        for another_synset_id in another.synsets:
+            we_have_it = False
+            # test whether we have it
+            for my_synset_id in self.synsets:
+                if self.synsets[my_synset_id].equals_to(another.synsets[another_synset_id]):
+                    we_have_it = True
+                    break
+
+            if we_have_it:
+                # change its new id to be compatible
+                another.synsets[another_synset_id].new_id = my_synset.old_id
+                # update synset references in another
+                another.update_synset_id(another_synset_id, my_synset.old_id)
+            # we will add it, but with a new id
+            else:
+                # we have a collision of IDs - add
+                if another_synset_id in self.synsets:
+                    new_id = get_new_id(self.synsets, another_synset_id)
+                    another.synsets[another_synset_id].new_id = new_id
+                    ahother.update_synset_id(another_synset_id, new_id)
+                    used_id = new_id
+                else:
+                    used_id = another_synset_id
+
+                self.synsets[used_id] = another.synsets[another_synset_id]
+
 
         #
         # merge lexical entries
@@ -157,6 +160,6 @@ class Lexicon:
                 lexicon_elem.appendChild(self.lex_entries[pos][lemma].build_elem(dom))
         return lexicon_elem
 
-		# add synsets
-		for synset in self.synsets:
-			
+        # add synsets
+        for synset in self.synsets:
+            lexicon_elem.appendChild(synset.build_elem(dom))

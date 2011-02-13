@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#       untitled.py
+#       $$
 #
 #       Copyright 2011 Michel Samia <m.samia@seznam.cz>
 #
