@@ -1,0 +1,4 @@
+merge only synsets with exactly same definition (because for example one word 'not' totally changes the meaning of the def)
+first merge the definitions simply as you merge other things. keep old and assign new ids. remap idrefs to new ids
+for each file have a map old-id =>new-id
+
