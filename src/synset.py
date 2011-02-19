@@ -53,8 +53,8 @@ class Synset:
 
     def build_elem(self, dom, lmf_id):
         elem = dom.createElement('Synset')
-        add_feat(dom, lexicon_elem, 'id', lmf_id)
+        add_feat(dom, elem, 'id', lmf_id)
         for definition_el in self.definitions.build_elems(dom):
-            sense_elem.appendChild(definition_el)
+            elem.appendChild(definition_el)
 
-
+        return elem

@@ -148,8 +148,6 @@ class Lexicon:
                         # add it
                         self.lex_entries[pos][lemma] = another.lex_entries[pos][lemma]
 
-
-
     def build_elem(self, dom):
         lexicon_elem = dom.createElement('Lexicon')
         add_feat(dom, lexicon_elem, 'lang', self.lang)
@@ -158,8 +156,11 @@ class Lexicon:
         for pos in self.lex_entries:
             for lemma in self.lex_entries[pos]:
                 lexicon_elem.appendChild(self.lex_entries[pos][lemma].build_elem(dom))
-        return lexicon_elem
 
         # add synsets
-        for synset in self.synsets:
-            lexicon_elem.appendChild(synset.build_elem(dom))
+        for synset_id in self.synsets:
+            print synset_id
+            print self.synsets[synset_id]
+            lexicon_elem.appendChild(self.synsets[synset_id].build_elem(dom, synset_id))
+
+        return lexicon_elem
