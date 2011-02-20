@@ -22,7 +22,7 @@
 
 from lmf_tools import *
 import lmf_merger
-import lexicon
+import lexicon as lexicon_module
 
 
 DEFAULT_DTD_VERSION = "16"
@@ -61,7 +61,7 @@ class LexicalResource:
         self.lexicons = dict()
         lexicon_nodes = get_child_elements(xmlnode, 'Lexicon')
         for node in lexicon_nodes:
-            my_lexicon = lexicon.Lexicon(node, self.global_info)
+            my_lexicon = lexicon_module.Lexicon(node, self.global_info)
 
             # is there already a lexicon with same lang?
             if(my_lexicon.lang in self.lexicons):
@@ -69,6 +69,14 @@ class LexicalResource:
             else:
                 self.lexicons[my_lexicon.lang] = my_lexicon
 
+	def get_statistics(self):
+		stats = list() # of lines
+		stats.append( 'Number of lexicons: ' + len(lexicons))
+		for nr, lexicon in enumerate(self.lexicons):
+			stats.append('\tLexicon nr.' + str(nr + 1) + ':')
+			stats += lexicon.get_statistics()
+			stats += '' # separator
+		return stats
 
     def merge_with_LR(self, anotherLR):
         """

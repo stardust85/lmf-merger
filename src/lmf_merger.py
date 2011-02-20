@@ -23,7 +23,7 @@
 # system modules
 import sys
 import xml.dom.minidom
-import xml.parsers.expat
+import argparse
 
 # my modules
 import lexical_resource
@@ -140,6 +140,9 @@ Usage:
 ################################################################################
 
 def main():
+	parser = argparse.ArgumentParser(description='Tool for manipulation with LMF files')
+	parser.add_argument(
+	
     # we need two args
     if sys.argv.__len__() != 4:
         usage()

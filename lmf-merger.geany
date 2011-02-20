@@ -10,14 +10,17 @@ indent_mode=2
 name=lmf-merger
 base_path=/var/mnt/eva/home/users/xs/xsamia00/lmf-merger/src
 make_in_base_path=false
+description=
+run_cmd=
 
 [files]
-current_page=1
+current_page=7
 FILE_NAME_0=1659;Python;0;16;1;1;0;/var/mnt/eva/home/users/xs/xsamia00/lmf-merger/src/synset.py;0
-FILE_NAME_1=2896;Python;0;16;1;1;0;/var/mnt/eva/home/users/xs/xsamia00/lmf-merger/src/lexicon.py;0
+FILE_NAME_1=2882;Python;0;16;1;1;0;/var/mnt/eva/home/users/xs/xsamia00/lmf-merger/src/lexicon.py;0
 FILE_NAME_2=1779;Python;0;16;1;1;0;/var/mnt/eva/home/users/xs/xsamia00/lmf-merger/src/definition.py;0
 FILE_NAME_3=1407;Python;0;16;1;1;0;/var/mnt/eva/home/users/xs/xsamia00/lmf-merger/src/sense.py;0
 FILE_NAME_4=1183;Python;0;16;1;1;0;/var/mnt/eva/home/users/xs/xsamia00/lmf-merger/src/lmf_tools.py;0
 FILE_NAME_5=1771;Python;0;16;1;1;0;/var/mnt/eva/home/users/xs/xsamia00/lmf-merger/src/lexical_entry.py;0
 FILE_NAME_6=2723;Python;0;16;1;1;0;/var/mnt/eva/home/users/xs/xsamia00/lmf-merger/src/sense_list.py;0
-FILE_NAME_7=0;Python;0;16;1;1;0;/var/mnt/eva/home/users/xs/xsamia00/lmf-merger/src/lmf_merger.py;0
+FILE_NAME_7=4515;Python;0;16;1;1;0;/var/mnt/eva/home/users/xs/xsamia00/lmf-merger/src/lmf_merger.py;0
+FILE_NAME_8=2137;Python;0;16;1;1;0;/var/mnt/eva/home/users/xs/xsamia00/lmf-merger/src/lexical_resource.py;0
