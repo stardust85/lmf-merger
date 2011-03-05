@@ -72,15 +72,15 @@ class Lexicon:
         self.has_translations = bool(xmlnode.getElementsByTagName('Equivalent'))
         self.has_definitions =  bool(xmlnode.getElementsByTagName('Definition'))
 
-	
-	def get_statistics(self):
-		stats = list()
-		stats.append('\tLanguage: ' + repr(lexicon.lang)
-			for pos in self.lex_entries:
-				stats.append('\t\tNumber of lexical entries with partOfSpeech '
-				 + pos + ':' str(len(self.lex_entries[pos])))
-		stats.append('\t\tNumber of synsets: ' + len(self.synsets)
-		return stats
+    
+    def get_statistics(self):
+        stats = list()
+        stats.append('\tLanguage: ' + repr(lexicon.lang))
+        for pos in self.lex_entries:
+            stats.append('\t\tNumber of lexical entries with partOfSpeech '
+                 + pos + ':' + str(len(self.lex_entries[pos])))
+        stats.append('\t\tNumber of synsets: ' + len(self.synsets))
+        return stats
 
     def update_synset_id(old_id, new_id):
         """updates all references to the synset to its new id"""

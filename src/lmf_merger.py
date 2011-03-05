@@ -23,7 +23,7 @@
 # system modules
 import sys
 import xml.dom.minidom
-import argparse
+import optparse
 
 # my modules
 import lexical_resource
@@ -140,18 +140,22 @@ Usage:
 ################################################################################
 
 def main():
-	parser = argparse.ArgumentParser(description='Tool for manipulation with LMF files')
-	parser.add_argument(
-	
+    parser = optparse.OptionParser()
+    parser.add_option("--statistics")
+    options, args = parser.parse_args()
+
+    if not options.statistics is None:
+        args
+    
     # we need two args
     if sys.argv.__len__() != 4:
         usage()
         sys.exit(1)
 
     # input and output files
-    file1 = sys.argv[1]
-    file2 = sys.argv[2]
-    outfile = sys.argv[3]
+    file1 = args[1]
+    file2 = args[2]
+    outfile = args[3]
 
     merger = LmfMerger()
     merger.merge_files(file1, file2, outfile)
