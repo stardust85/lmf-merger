@@ -28,7 +28,7 @@ import optparse
 # my modules
 import lexical_resource
 
-class FatalMergeError(Exception):
+class FatalError(Exception):
     def __init__(self, message):
         self.message = message
     def __str__(self):
@@ -42,14 +42,12 @@ class Enumerate(object):
 msg_types = Enumerate('DEBUG INFO WARNING ERROR')
 
 class LmfMerger:
+    """
+    Lmf Manager class.
+    """
     def __init__(self, gui = None):
         self.gui = gui
         self.in_progress = False
-
-    """
-    Takes two LMF files and merges them into one.
-    Just call the constructor and all will be done...
-    """
 
     def begin(self,whatToPrint):
         """
@@ -81,38 +79,51 @@ class LmfMerger:
             sys.stdout.write(message)
         else:
             self.gui.add_message(message, type)
+            
+    def print_statistics(filename):
+        lr = merger.parse_file(filename)
+        stats = lr.get_statistics()
+        for line in stat:
+            my_print(line, msg_types.INFO)
+
+    def parse_file(filename):
+        """Creates LexicalResource object from given file"""
+        
+        # create DOM tree
+        try:
+            self.begin('building DOM tree from file ' + filename)
+            dom = xml.dom.minidom.parse(filename)
+            self.end()
+
+        except xml.parsers.expat.ExpatError as e:
+            self.my_print("XML parsing error: " + str(e), msg_types.ERROR)
+            raise
+        
+        # create lexical resource
+        try:
+            self.begin('Extracting data from DOM of file ' + filename)
+            lr = lexical_resource.LexicalResource(dom.getElementsByTagName('LexicalResource')[0])
+            self.end()
+            return lr
+        except FatalError as e:
+            self.my_print(str(e), msg_types.ERROR)
+            self.my_print('Processing stopped. Please fix the previous error(s) and try it again', msg_types.ERROR)
+            raise
+       
 
     def merge_files(self, file1, file2, outfile):
         """Runs merging"""
 
-        # build document object models
         try:
-            self.begin('building DOM tree from file ' + file1)
-            dom1 = xml.dom.minidom.parse(file1)
-            self.end()
-
-            self.begin('building DOM tree from file ' + file2)
-            dom2 = xml.dom.minidom.parse(file2)
-            self.end()
-        except xml.parsers.expat.ExpatError as e:
-            self.my_print("XML parsing error: " + str(e), msg_types.ERROR)
-            return
-
-        try:
-            # create lexical resources
-            self.begin('Extracting data from file ' + file1)
-            lr1 = lexical_resource.LexicalResource(dom1.getElementsByTagName('LexicalResource')[0])
-            self.end()
-            self.begin('Extracting data from file ' + file2)
-            lr2 = lexical_resource.LexicalResource(dom2.getElementsByTagName('LexicalResource')[0])
-            self.end()
+            lr1 = parse_file(file1)
+            lr2 = parse_file(file2)
 
             # merge lexical resources
             lr2.merge_with_LR(lr1)
 
-        except FatalMergeError as e:
+        except Exception as e:
             self.my_print(str(e), msg_types.ERROR)
-            self.my_print('Merging stopped. Please fix the previous error(s) and try it again', msg_types.ERROR)
+            self.my_print('Processing stopped. Please fix the previous error(s) and try it again', msg_types.ERROR)
             return
 
         # update dom tree of a result
@@ -129,8 +140,9 @@ class LmfMerger:
 def usage():
     """Prints how to run this program"""
     print """
-Usage:
-    ./lmf-merger.py file1 file2 outfile
+Usages:
+    ./lmf-merger.py -m file1 file2 outfile
+    ./lmf-merger.py -s file1 ...
     example: ./lmf-merger.py data/lmf/ac_eko_dlouhe_50_xxx_lmf.xml \
     data/lmf/ac_frs_dlouhe_50_xxx_lmf.xml ac_eko-frs_dlouhe_50_xxx_lmf.xml
     """
@@ -144,8 +156,12 @@ def main():
     parser.add_option("--statistics")
     options, args = parser.parse_args()
 
+    merger = LmfMerger()
+
     if not options.statistics is None:
-        args
+        merger.print_statistics(args[1])
+        return 0
+        
     
     # we need two args
     if sys.argv.__len__() != 4:
@@ -157,7 +173,6 @@ def main():
     file2 = args[2]
     outfile = args[3]
 
-    merger = LmfMerger()
     merger.merge_files(file1, file2, outfile)
     return 0
 
