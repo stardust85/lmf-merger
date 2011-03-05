@@ -1,0 +1,23 @@
+﻿<?xml version="1.0"?>
+<!DOCTYPE LexicalResource PUBLIC "-//ISO//DTD LMF 16//EN" "http://www.tagmatica.fr/lmf/DTD_LMF_REV_16.dtd">
+<LexicalResource dtdVersion="16">
+    <GlobalInformation>
+        <feat att="languageCoding" val="ISO 639-3"/>
+    </GlobalInformation>
+    <Lexicon>
+        <feat att="lang" val="eng"/>
+        <LexicalEntry>
+            <feat att="partOfSpeech" val="adjective"/>
+            <Lemma>
+                <feat att="writtenForm" val="rapid"/>
+            </Lemma>
+            <Sense synset="SS2"/>
+        </LexicalEntry>
+
+        <Synset id="SS2">
+          <Definition>
+            <feat att='text' val='moving to a long distance in a short time'/>
+          </Definition>
+        </Synset>
+    </Lexicon>
+</LexicalResource>
