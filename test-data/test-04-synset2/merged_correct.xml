@@ -12,7 +12,7 @@
 			<Lemma>
 				<feat att="writtenForm" val="quick"/>
 			</Lemma>
-			<Sense synset="SS1"/>
+			<Sense synset="SS2"/>
 		</LexicalEntry>
 		<LexicalEntry>
 			<feat att="partOfSpeech" val="adjective"/>
@@ -26,16 +26,11 @@
 			<Lemma>
 				<feat att="writtenForm" val="fast"/>
 			</Lemma>
-			<Sense synset="SS1"/>
+			<Sense synset="SS2"/>
 		</LexicalEntry>
-		<Synset id="SS1">
-			<Definition>
-				<feat att="text" val="moving to a long distance in a short time"/>
-			</Definition>
-		</Synset>
 		<Synset id="SS2">
 			<Definition>
-				<feat att="text" val="moving to long distances in a short time"/>
+				<feat att="text" val="moving to a long distance in a short time"/>
 			</Definition>
 		</Synset>
 	</Lexicon>

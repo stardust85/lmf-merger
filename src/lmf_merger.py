@@ -81,12 +81,12 @@ class LmfMerger:
             self.gui.add_message(message, type)
             
     def print_statistics(filename):
-        lr = merger.parse_file(filename)
+        lr = self.parse_file(filename)
         stats = lr.get_statistics()
         for line in stat:
             my_print(line, msg_types.INFO)
 
-    def parse_file(filename):
+    def parse_file(self, filename):
         """Creates LexicalResource object from given file"""
         
         # create DOM tree
@@ -115,13 +115,13 @@ class LmfMerger:
         """Runs merging"""
 
         try:
-            lr1 = parse_file(file1)
-            lr2 = parse_file(file2)
+            lr1 = self.parse_file(file1)
+            lr2 = self.parse_file(file2)
 
             # merge lexical resources
             lr2.merge_with_LR(lr1)
 
-        except Exception as e:
+        except FatalError as e:
             self.my_print(str(e), msg_types.ERROR)
             self.my_print('Processing stopped. Please fix the previous error(s) and try it again', msg_types.ERROR)
             return
@@ -169,12 +169,13 @@ def main():
         sys.exit(1)
 
     # input and output files
-    file1 = args[1]
-    file2 = args[2]
-    outfile = args[3]
+    file1 = args[0]
+    file2 = args[1]
+    outfile = args[2]
 
     merger.merge_files(file1, file2, outfile)
     return 0
 
 if __name__ == '__main__':
     main()
+

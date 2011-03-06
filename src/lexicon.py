@@ -82,13 +82,14 @@ class Lexicon:
         stats.append('\t\tNumber of synsets: ' + len(self.synsets))
         return stats
 
-    def update_synset_id(old_id, new_id):
+    def update_synset_id(self, old_id, new_id):
         """updates all references to the synset to its new id"""
-        for pos in lex_entries:
-            for lex_entry in lex_entries[pos]:
-                for sense in lex_entry.sense_list:
+        for pos in self.lex_entries:
+            for lex_entry in self.lex_entries[pos]:
+                for sense in self.lex_entries[pos][lex_entry].sense_list.senses:
                     if sense.synset_id == old_id:
-                        sense.synset_id == new_id
+                        sense.synset_id = new_id
+
 
 
     def merge_with_lexicon(self, another):
@@ -119,9 +120,9 @@ class Lexicon:
 
             if we_have_it:
                 # change its new id to be compatible
-                another.synsets[another_synset_id].new_id = my_synset.old_id
+                another.synsets[another_synset_id].new_id = my_synset_id
                 # update synset references in another
-                another.update_synset_id(another_synset_id, my_synset.old_id)
+                another.update_synset_id(another_synset_id, my_synset_id)
             # we will add it, but with a new id
             else:
                 # we have a collision of IDs - add
@@ -146,7 +147,7 @@ class Lexicon:
             if pos not in self.lex_entries:
                 # no, I will add it all from another lexicon
                 # (by linking - it is mutable :)
-                self.lex_entries[pos] = another.lex_entries
+                self.lex_entries[pos] = another.lex_entries[pos]
             else:
                 # yes, we have to check each lexical entry
                 for lemma in another.lex_entries[pos]:
@@ -155,7 +156,11 @@ class Lexicon:
                         self.lex_entries[pos][lemma].merge_with_lex_entry(another.lex_entries[pos][lemma], merge_type)
                     else:
                         # add it
+                        for sense in another.lex_entries[pos][lemma].sense_list.senses:
+                            print 'an', sense, sense.synset_id
                         self.lex_entries[pos][lemma] = another.lex_entries[pos][lemma]
+                        for sense in self.lex_entries[pos][lemma].sense_list.senses:
+                            print 'se', sense, sense.synset_id
 
     def build_elem(self, dom):
         lexicon_elem = dom.createElement('Lexicon')
