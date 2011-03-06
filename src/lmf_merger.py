@@ -80,11 +80,11 @@ class LmfMerger:
         else:
             self.gui.add_message(message, type)
             
-    def print_statistics(filename):
+    def print_statistics(self, filename):
         lr = self.parse_file(filename)
         stats = lr.get_statistics()
-        for line in stat:
-            my_print(line, msg_types.INFO)
+        for line in stats:
+            self.my_print(line, msg_types.INFO)
 
     def parse_file(self, filename):
         """Creates LexicalResource object from given file"""
@@ -153,13 +153,13 @@ Usages:
 
 def main():
     parser = optparse.OptionParser()
-    parser.add_option("--statistics")
+    parser.add_option("-s", "--statistics")
     options, args = parser.parse_args()
 
     merger = LmfMerger()
 
     if not options.statistics is None:
-        merger.print_statistics(args[1])
+        merger.print_statistics(options.statistics)
         return 0
         
     

@@ -69,14 +69,14 @@ class LexicalResource:
             else:
                 self.lexicons[my_lexicon.lang] = my_lexicon
 
-	def get_statistics(self):
-		stats = list() # of lines
-		stats.append( 'Number of lexicons: ' + len(lexicons))
-		for nr, lexicon in enumerate(self.lexicons):
-			stats.append('\tLexicon nr.' + str(nr + 1) + ':')
-			stats += lexicon.get_statistics()
-			stats += '' # separator
-		return stats
+    def get_statistics(self):
+        stats = list() # of lines
+        stats.append( 'Number of lexicons: ' + str(len(self.lexicons)))
+        for nr, lexicon in enumerate(self.lexicons):
+            stats.append('\tLexicon nr.' + str(nr + 1) + ':')
+            stats += self.lexicons[lexicon].get_statistics()
+            stats += '' # separator
+        return stats
 
     def merge_with_LR(self, anotherLR):
         """

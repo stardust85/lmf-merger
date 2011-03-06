@@ -25,6 +25,9 @@ import lmf_merger
 
 
 def to_ISO_639_3(code, coding):
+    if code is None:
+        return None
+
     # first try the three-letter codes
     if coding == 'ISO 639-3' or coding == 'ISO 639-2':
         try:

@@ -75,11 +75,11 @@ class Lexicon:
     
     def get_statistics(self):
         stats = list()
-        stats.append('\tLanguage: ' + repr(lexicon.lang))
+        stats.append('\t\tLanguage: ' + repr(self.lang))
         for pos in self.lex_entries:
             stats.append('\t\tNumber of lexical entries with partOfSpeech '
-                 + pos + ':' + str(len(self.lex_entries[pos])))
-        stats.append('\t\tNumber of synsets: ' + len(self.synsets))
+                 + pos + ': ' + str(len(self.lex_entries[pos])))
+        stats.append('\t\tNumber of synsets: ' + str(len(self.synsets)))
         return stats
 
     def update_synset_id(self, old_id, new_id):
