@@ -33,8 +33,11 @@ class LexicalEntry:
         self.pos = get_part_of_speech(xmlnode)
 
         # set lemma written form
-        lemma_elem = get_child_elements(xmlnode, 'Lemma')[0]
-        self.lemma = get_feat(lemma_elem, 'writtenForm')
+        lemma_elems = get_child_elements(xmlnode, 'Lemma')
+        if not lemma_elems:
+            self.lemma = None
+        else:
+            self.lemma = get_feat(lemma_elems[0], 'writtenForm')
 
         # senses
         self.sense_list = sense_list.SenseList(xmlnode, global_info, lexicon)

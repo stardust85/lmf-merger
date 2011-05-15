@@ -25,6 +25,7 @@ import sys
 import xml.etree.cElementTree as ET
 import optparse
 import gzip
+import traceback
 
 # my modules
 import lexical_resource
@@ -103,7 +104,7 @@ class LmfMerger:
         try:
             lr = self.parse_file(filename)
         except:
-            self.my_print(str(sys.exc_info()[0]), msg_types.ERROR)
+            self.my_print(str(sys.exc_info()), msg_types.ERROR)
             raise
             
         stats = lr.get_statistics()
@@ -120,21 +121,21 @@ class LmfMerger:
         except IOError as e:
             self.my_print('Error opening file ' + filename + str(e), msg_types.ERROR)
             raise
-        
+                
         try:
             self.begin('building DOM tree from file ' + filename)
-            dom = ET.parse(file_object)
+            dom = ET.XML(file_object.read())
             self.end()
             file_object.close()
 
-        except:
-            self.my_print("XML parsing error: " + str(sys.exc_info()[0]), msg_types.ERROR)
+        except SyntaxError as e:
+            self.my_print("XML parsing error: " + str(e), msg_types.ERROR)
             raise
         
         # create lexical resource
         try:
             self.begin('Extracting data from DOM of file ' + filename)
-            lr = lexical_resource.LexicalResource(dom.getroot())
+            lr = lexical_resource.LexicalResource(dom)
             self.end()
             return lr
         except FatalError as e:
@@ -193,9 +194,10 @@ def main():
     if not options.statistics is None:
         try:
             merger.print_file_statistics(options.statistics)
-            sys.exit()
         except:
+            traceback.print_exc()
             sys.exit(1)
+        sys.exit()
         
     
     # we need two args
