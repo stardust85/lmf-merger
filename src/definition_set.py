@@ -32,6 +32,7 @@ class DefinitionSet:
             self.definitions.append(definition_module.Definition(definition_el, global_info))
 
     def compare_to(self, other):
+        """TODO counts average of max similarities"""
         return self.definitions[0].compare_to(other.definitions[0])
 
     def equals_to(self, other):

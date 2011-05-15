@@ -42,7 +42,7 @@ class Lexicon:
         # parse language
         #
         lang = get_feat(xmlnode, 'lang')
-        self.lang = language_coding_module.to_ISO_639_3(lang, global_info.get('language_coding'))
+        self.lang = language_coding_module.to_ISO_639_2T(lang, global_info.get('language_coding'))
 
         #
         # load synsets
@@ -74,6 +74,11 @@ class Lexicon:
 
     
     def get_statistics(self):
+        """
+        TODO don't return string, but rather an object with fields like
+        num_synsets, num_lexentries.. or do this in lexical_resource directly
+        and here only group things like numsenses for each category
+        """
         stats = list()
         stats.append('\t\tLanguage: ' + repr(self.lang))
         for pos in self.lex_entries:

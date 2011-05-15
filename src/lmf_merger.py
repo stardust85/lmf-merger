@@ -24,6 +24,7 @@
 import sys
 import xml.dom.minidom
 import optparse
+import gzip
 
 # my modules
 import lexical_resource
@@ -41,6 +42,8 @@ class Enumerate(object):
 
 msg_types = Enumerate('DEBUG INFO WARNING ERROR')
 
+
+
 class LmfMerger:
     """
     Lmf Manager class.
@@ -48,6 +51,7 @@ class LmfMerger:
     def __init__(self, gui = None):
         self.gui = gui
         self.in_progress = False
+
 
     def begin(self,whatToPrint):
         """
@@ -58,12 +62,14 @@ class LmfMerger:
         self.in_progress = True
         sys.stdout.flush()
 
+
     def end(self):
         """
         Prints end of a message with progress. ([DONE])
         """
         self.my_print("\t[DONE]", msg_types.INFO)
         self.in_progress = False
+
 
     def my_print(self, message, type, wrap = True):
         """
@@ -76,24 +82,50 @@ class LmfMerger:
         if wrap == True:
             message = message + '\n'
         if self.gui is None:
-            sys.stdout.write(message)
+            if type == msg_types.ERROR or type == msg_types.WARNING:
+                outstream = sys.stderr
+            else:
+                outstream = sys.stdout
+            outstream.write(message)
         else:
             self.gui.add_message(message, type)
             
-    def print_statistics(self, filename):
-        lr = self.parse_file(filename)
+            
+    def auto_open(self, filename):
+        if filename.endswith('.gz'):
+            return gzip.open(filename)
+        if not ( filename.endswith('.xml') or filename.endswith('.lmf') ):
+            self.my_print("non-standard file extension", msg_types.WARNING)
+        return open(filename)
+            
+            
+    def print_file_statistics(self, filename):
+        try:
+            lr = self.parse_file(filename)
+        except:
+            self.my_print(str(sys.exc_info()[0]), msg_types.ERROR)
+            raise
+            
         stats = lr.get_statistics()
         for line in stats:
             self.my_print(line, msg_types.INFO)
+
 
     def parse_file(self, filename):
         """Creates LexicalResource object from given file"""
         
         # create DOM tree
         try:
+            file_object = self.auto_open(filename)
+        except IOError as e:
+            self.my_print('Error opening file ' + filename + str(e), msg_types.ERROR)
+            raise
+        
+        try:
             self.begin('building DOM tree from file ' + filename)
-            dom = xml.dom.minidom.parse(filename)
+            dom = xml.dom.minidom.parse(file_object)
             self.end()
+            file_object.close()
 
         except xml.parsers.expat.ExpatError as e:
             self.my_print("XML parsing error: " + str(e), msg_types.ERROR)
@@ -159,8 +191,11 @@ def main():
     merger = LmfMerger()
 
     if not options.statistics is None:
-        merger.print_statistics(options.statistics)
-        return 0
+        try:
+            merger.print_file_statistics(options.statistics)
+            sys.exit()
+        except:
+            sys.exit(1)
         
     
     # we need two args

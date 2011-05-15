@@ -36,7 +36,7 @@ class EquivalentSet:
         equiv_elems = get_child_elements(xmlnode, 'Equivalent')
         for equiv_elem in equiv_elems:
             lang = get_feat(equiv_elem, 'lang')
-            lang = to_ISO_639_3(lang, global_info.get('languageCoding'))
+            lang = to_ISO_639_2T(lang, global_info.get('languageCoding'))
             writtenform = get_feat(equiv_elem, 'writtenForm')
 
             self.equivalent_set.add( Equiv(lang, writtenform) )

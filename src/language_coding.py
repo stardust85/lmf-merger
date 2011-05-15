@@ -24,7 +24,7 @@ import pycountry
 import lmf_merger
 
 
-def to_ISO_639_3(code, coding):
+def to_ISO_639_2T(code, coding):
     if code is None:
         return None
 
@@ -49,10 +49,10 @@ def to_ISO_639_3(code, coding):
     # autodetection
     elif coding == None:
         if len(code) == 2:
-            return to_ISO_639_3(code, 'ISO 639-1')
+            return to_ISO_639_2T(code, 'ISO 639-1')
 
         elif len(code) == 3:
-            return to_ISO_639_3(code, 'ISO 639-3')
+            return to_ISO_639_2T(code, 'ISO 639-3')
 
         # try it as a name
         else:
