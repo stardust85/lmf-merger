@@ -2,8 +2,8 @@
 
 # Graphical interface for invoking LmfMerger
 
-TEST_FILE1 = '../test-data/translational/lexicon1.xml' #test-pos/pos1.xml'
-TEST_FILE2 = '../test-data/translational/lexicon2.xml' #test-pos/pos2.xml'
+TEST_FILE1 = '../test/test-02-tranlational/lexicon1.xml' #test-pos/pos1.xml'
+TEST_FILE2 = '../test/test-02-tranlational/lexicon2.xml' #test-pos/pos2.xml'
 
 import pygtk
 pygtk.require('2.0')
