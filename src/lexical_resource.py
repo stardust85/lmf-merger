@@ -39,10 +39,7 @@ class LexicalResource:
         Reads information from LMF root node into python data structures.
         """
         # read DTD version
-        if xmlnode.hasAttribute('dtdVersion'):
-            self.dtdVersion = xmlnode.attributes['dtdVersion'].value
-        else:
-            self.dtdVersion = None
+        self.dtdVersion = xmlnode.attrib.get('dtdVersion')
 
         # only version 16 supported for now
         if self.dtdVersion != '16':

@@ -22,7 +22,7 @@
 
 # system modules
 import sys
-import xml.dom.minidom
+import xml.etree.cElementTree as ET
 import optparse
 import gzip
 
@@ -123,18 +123,18 @@ class LmfMerger:
         
         try:
             self.begin('building DOM tree from file ' + filename)
-            dom = xml.dom.minidom.parse(file_object)
+            dom = ET.parse(file_object)
             self.end()
             file_object.close()
 
-        except xml.parsers.expat.ExpatError as e:
-            self.my_print("XML parsing error: " + str(e), msg_types.ERROR)
+        except:
+            self.my_print("XML parsing error: " + str(sys.exc_info()[0]), msg_types.ERROR)
             raise
         
         # create lexical resource
         try:
             self.begin('Extracting data from DOM of file ' + filename)
-            lr = lexical_resource.LexicalResource(dom.getElementsByTagName('LexicalResource')[0])
+            lr = lexical_resource.LexicalResource(dom.getroot())
             self.end()
             return lr
         except FatalError as e:

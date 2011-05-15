@@ -36,7 +36,7 @@ class Synset:
 
     def __init__(self, xmlnode, global_info):
         self.definitions = definition_set_module.DefinitionSet(xmlnode, global_info)
-        self.old_id = xmlnode.getAttribute('id')
+        self.old_id = xmlnode.get('id')
         self.new_id = None
 
     def equals_to(self, other):

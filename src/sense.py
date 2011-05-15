@@ -30,11 +30,10 @@ class Sense:
         #
         # synset ID
         #
-        if xmlnode.hasAttribute('synset'):
-            self.synset_id = xmlnode.getAttribute('synset')
+        self.synset_id = xmlnode.get('synset')
+        if self.synset_id:
             self.synset = lexicon.synsets[self.synset_id]
         else:
-            self.synset_id = None
             self.synset = None
 
         #

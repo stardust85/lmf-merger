@@ -45,13 +45,7 @@ def get_child_elements(node, tagname):
     Returns list of direct subnodes of type ELEMENT (=sub-elements)co
     of given tag name.
     """
-    matching_subnodes = list()
-
-    for child in node.childNodes:
-        if child.nodeType == xml.dom.Node.ELEMENT_NODE and child.nodeName == tagname:
-            matching_subnodes.append(child)
-
-    return matching_subnodes
+    return node.findall(tagname)
 
 def get_feat(node, name):
     """
@@ -59,10 +53,10 @@ def get_feat(node, name):
     """
 
     value = None
-    feats = node.getElementsByTagName('feat')
+    feats = node.findall('feat')
     for feat in feats:
-        if feat.attributes['att'].value == name:
-            value = feat.attributes['val'].value
+        if feat.get('att') == name:
+            value = feat.get('val')
             break
     return value
 
@@ -84,10 +78,10 @@ def get_feats(node):
     """
     Returns dictionary of features and its values.
     """
-    feats = node.getElementsByTagName('feat')
+    feats = node.findall('feat')
     result = dict()
     for feat in feats:
-        result[feat.attributes['att'].value] = feat.attributes['val'].value
+        result[feat.get('att')] = feat.get('val')
     return result
 
 

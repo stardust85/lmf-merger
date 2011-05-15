@@ -47,7 +47,7 @@ class Lexicon:
         #
         # load synsets
         #
-        ss_elems = xmlnode.getElementsByTagName('Synset')
+        ss_elems = xmlnode.findall('Synset')
         self.synsets = dict()
         for ss_elem in ss_elems:
             ss = synset_module.Synset(ss_elem, global_info)
@@ -56,7 +56,7 @@ class Lexicon:
         #
         # parse lexical entries
         #
-        lex_entry_nodes = xmlnode.getElementsByTagName('LexicalEntry')
+        lex_entry_nodes = xmlnode.findall('LexicalEntry')
         self.lex_entries = dict()
 
         for node in lex_entry_nodes:
@@ -69,8 +69,8 @@ class Lexicon:
         #
         # detect, if it is an explanatory lexicon, or a translation lexicon
         #
-        self.has_translations = bool(xmlnode.getElementsByTagName('Equivalent'))
-        self.has_definitions =  bool(xmlnode.getElementsByTagName('Definition'))
+        self.has_translations = bool(xmlnode.find('LexicalEntry/Sense/Equivalent'))
+        self.has_definitions =  bool(xmlnode.find('LexicalEntry/Sense/Definition'))
 
     
     def get_statistics(self):
