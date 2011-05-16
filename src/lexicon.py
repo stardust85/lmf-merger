@@ -69,7 +69,7 @@ class Lexicon:
         #
         # detect, if it is an explanatory lexicon, or a translation lexicon
         #
-        self.has_translations = bool(xmlnode.find('LexicalEntry/Sense/Equivalent'))
+        self.has_translations = bool(xmlnode.find('LexicalEntry//Sense/Equivalent'))
         self.has_definitions =  bool(xmlnode.find('LexicalEntry/Sense/Definition'))
 
     
@@ -161,11 +161,8 @@ class Lexicon:
                         self.lex_entries[pos][lemma].merge_with_lex_entry(another.lex_entries[pos][lemma], merge_type)
                     else:
                         # add it
-                        for sense in another.lex_entries[pos][lemma].sense_list.senses:
-                            print 'an', sense, sense.synset_id
                         self.lex_entries[pos][lemma] = another.lex_entries[pos][lemma]
-                        for sense in self.lex_entries[pos][lemma].sense_list.senses:
-                            print 'se', sense, sense.synset_id
+
 
     def build_elem(self, dom):
         lexicon_elem = dom.createElement('Lexicon')

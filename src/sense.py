@@ -65,7 +65,6 @@ class Sense:
         self.equivalents.merge_with_another(other.equivalents)
 
     def build_elem(self, dom):
-        print 'sense build', self
         sense_elem = dom.createElement('Sense')
 
         # add synset id
