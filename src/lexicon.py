@@ -41,7 +41,7 @@ class Lexicon:
         #
         # parse language
         #
-        lang = get_feat(xmlnode, 'lang')
+        lang = get_feat(xmlnode, 'language')
         self.lang = language_coding_module.to_ISO_639_2T(lang, global_info.get('language_coding'))
 
         #
