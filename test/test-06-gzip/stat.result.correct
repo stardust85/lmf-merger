@@ -1,0 +1,7 @@
+building DOM tree from file ac_lek_xxx_lmf.xml.gz ...	[DONE]
+Extracting data from DOM of file ac_lek_xxx_lmf.xml.gz ...	[DONE]
+Number of lexicons: 1
+	Lexicon nr.1:
+		Language: None
+		Number of lexical entries with partOfSpeech missing: 27071
+		Number of synsets: 0

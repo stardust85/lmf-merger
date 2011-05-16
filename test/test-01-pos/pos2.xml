@@ -5,7 +5,7 @@
         <feat att="languageCoding" val="ISO 639-3"/>
     </GlobalInformation>
     <Lexicon>
-        <feat att="lang" val="eng"/>
+        <feat att="language" val="eng"/>
         <LexicalEntry>
             <feat att="partOfSpeech" val="noun"/>
             <Lemma>
