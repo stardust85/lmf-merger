@@ -21,4 +21,4 @@ do
     cd ..
 done
 
-
+echo 'ALL TESTS PASSED SUCCESSFULLY'
