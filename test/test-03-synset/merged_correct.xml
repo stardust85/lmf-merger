@@ -1,42 +1,41 @@
 <?xml version="1.0" ?>
-<!DOCTYPE LexicalResource
-  SYSTEM 'DTD_LMF_REV_16.dtd'>
+<!DOCTYPE LexicalResource SYSTEM 'DTD_LMF_REV_16.dtd'>
 <LexicalResource dtdVersion="16">
-	<GlobalInformation>
-		<feat att="languageCoding" val="ISO 639-3"/>
-	</GlobalInformation>
-	<Lexicon>
-		<feat att="lang" val="eng"/>
-		<LexicalEntry>
-			<feat att="partOfSpeech" val="adjective"/>
-			<Lemma>
-				<feat att="writtenForm" val="quick"/>
-			</Lemma>
-			<Sense synset="SS1"/>
-		</LexicalEntry>
-		<LexicalEntry>
-			<feat att="partOfSpeech" val="adjective"/>
-			<Lemma>
-				<feat att="writtenForm" val="rapid"/>
-			</Lemma>
-			<Sense synset="SS2"/>
-		</LexicalEntry>
-		<LexicalEntry>
-			<feat att="partOfSpeech" val="adjective"/>
-			<Lemma>
-				<feat att="writtenForm" val="fast"/>
-			</Lemma>
-			<Sense synset="SS1"/>
-		</LexicalEntry>
-		<Synset id="SS1">
-			<Definition>
-				<feat att="text" val="moving to a long distance in a short time"/>
-			</Definition>
-		</Synset>
-		<Synset id="SS2">
-			<Definition>
-				<feat att="text" val="moving to long distances in a short time"/>
-			</Definition>
-		</Synset>
-	</Lexicon>
+  <GlobalInformation>
+    <feat att="languageCoding" val="ISO 639-3"/>
+  </GlobalInformation>
+  <Lexicon>
+    <feat att="lang" val="eng"/>
+    <LexicalEntry>
+      <feat att="partOfSpeech" val="adjective"/>
+      <Lemma>
+        <feat att="writtenForm" val="quick"/>
+      </Lemma>
+      <Sense synset="SS1"/>
+    </LexicalEntry>
+    <LexicalEntry>
+      <feat att="partOfSpeech" val="adjective"/>
+      <Lemma>
+        <feat att="writtenForm" val="rapid"/>
+      </Lemma>
+      <Sense synset="SS2"/>
+    </LexicalEntry>
+    <LexicalEntry>
+      <feat att="partOfSpeech" val="adjective"/>
+      <Lemma>
+        <feat att="writtenForm" val="fast"/>
+      </Lemma>
+      <Sense synset="SS1"/>
+    </LexicalEntry>
+    <Synset id="SS1">
+      <Definition>
+        <feat att="text" val="moving to a long distance in a short time"/>
+      </Definition>
+    </Synset>
+    <Synset id="SS2">
+      <Definition>
+        <feat att="text" val="moving to long distances in a short time"/>
+      </Definition>
+    </Synset>
+  </Lexicon>
 </LexicalResource>

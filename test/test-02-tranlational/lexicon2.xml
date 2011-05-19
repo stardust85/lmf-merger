@@ -13,11 +13,11 @@
             </Lemma>
             <Sense>
                 <Equivalent>
-                    <feat att='lang' val='deu'/>
-                    <feat att='writtenForm' val ='kniha'/>
+                    <feat att='language' val='deu'/>
+                    <feat att='writtenForm' val ='Buch'/>
                 </Equivalent>
                 <Equivalent>
-                    <feat att='lang' val='cze'/>
+                    <feat att='language' val='cze'/>
                     <feat att='writtenForm' val ='kniha'/>
                 </Equivalent>
             </Sense>
@@ -29,8 +29,8 @@
             </Lemma>
             <Sense>
                 <Equivalent>
-                    <feat att='lang' val='cze'/>
-                    <feat att='writtenForm' val ='pokutovat'/>
+                    <feat att='language' val='cze'/>
+                    <feat att='writtenForm' val='pokutovat'/>
                 </Equivalent>
             </Sense>
         </LexicalEntry>

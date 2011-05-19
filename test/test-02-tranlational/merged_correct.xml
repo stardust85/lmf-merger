@@ -1,45 +1,44 @@
 <?xml version="1.0" ?>
-<!DOCTYPE LexicalResource
-  SYSTEM 'DTD_LMF_REV_16.dtd'>
+<!DOCTYPE LexicalResource SYSTEM 'DTD_LMF_REV_16.dtd'>
 <LexicalResource dtdVersion="16">
-	<GlobalInformation>
-		<feat att="languageCoding" val="ISO 639-3"/>
-	</GlobalInformation>
-	<Lexicon>
-		<feat att="lang" val="eng"/>
-		<LexicalEntry>
-			<feat att="partOfSpeech" val="verb"/>
-			<Lemma>
-				<feat att="writtenForm" val="book"/>
-			</Lemma>
-			<Sense>
-				<Equivalent>
-					<feat att="lang" val="ces"/>
-					<feat att="writtenForm" val="zarezervovat"/>
-				</Equivalent>
-			</Sense>
-			<Sense>
-				<Equivalent>
-					<feat att="lang" val="ces"/>
-					<feat att="writtenForm" val="pokutovat"/>
-				</Equivalent>
-			</Sense>
-		</LexicalEntry>
-		<LexicalEntry>
-			<feat att="partOfSpeech" val="noun"/>
-			<Lemma>
-				<feat att="writtenForm" val="book"/>
-			</Lemma>
-			<Sense>
-				<Equivalent>
-					<feat att="lang" val="deu"/>
-					<feat att="writtenForm" val="kniha"/>
-				</Equivalent>
-				<Equivalent>
-					<feat att="lang" val="ces"/>
-					<feat att="writtenForm" val="kniha"/>
-				</Equivalent>
-			</Sense>
-		</LexicalEntry>
-	</Lexicon>
+  <GlobalInformation>
+    <feat att="languageCoding" val="ISO 639-3"/>
+  </GlobalInformation>
+  <Lexicon>
+    <feat att="lang" val="eng"/>
+    <LexicalEntry>
+      <feat att="partOfSpeech" val="verb"/>
+      <Lemma>
+        <feat att="writtenForm" val="book"/>
+      </Lemma>
+      <Sense>
+        <Equivalent>
+          <feat att="language" val="ces"/>
+          <feat att="writtenForm" val="zarezervovat"/>
+        </Equivalent>
+      </Sense>
+      <Sense>
+        <Equivalent>
+          <feat att="language" val="ces"/>
+          <feat att="writtenForm" val="pokutovat"/>
+        </Equivalent>
+      </Sense>
+    </LexicalEntry>
+    <LexicalEntry>
+      <feat att="partOfSpeech" val="noun"/>
+      <Lemma>
+        <feat att="writtenForm" val="book"/>
+      </Lemma>
+      <Sense>
+        <Equivalent>
+          <feat att="language" val="deu"/>
+          <feat att="writtenForm" val="Buch"/>
+        </Equivalent>
+        <Equivalent>
+          <feat att="language" val="ces"/>
+          <feat att="writtenForm" val="kniha"/>
+        </Equivalent>
+      </Sense>
+    </LexicalEntry>
+  </Lexicon>
 </LexicalResource>
