@@ -90,6 +90,16 @@ class LexicalResource:
             else:
                 self.lexicons[lang] = anotherLR.lexicons[lang]
 
+    def get_merge_statistics(self):
+        stats = list()
+        stats.append( " === Merging statistics === ")
+        for lang in self.lexicons:
+            stats.append( "\tLexicon: %s" % lang)
+            stats.append( "\t\tNumber of merged lexical entries: %d" % self.lexicons[lang].num_merged_lentries)
+            stats.append( "\t\tNumber of added lexical entries: %d" % self.lexicons[lang].num_added_lentries)
+            
+        return stats
+            
 
     def update_DOM(self):
         domImplementation = xml.dom.minidom.getDOMImplementation()

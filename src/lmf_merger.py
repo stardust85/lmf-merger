@@ -93,6 +93,11 @@ class LmfMerger:
             
             
     def auto_open(self, filename):
+        """
+        Autodetects type of file (compressed/non-compressed), opens
+        it proper way and returns file-like object with same interface
+        for both.
+        """
         if filename.endswith('.gz'):
             return gzip.open(filename)
         if not ( filename.endswith('.xml') or filename.endswith('.lmf') ):
@@ -167,6 +172,9 @@ class LmfMerger:
         outfiledsc = open(outfile, 'w')
         outfiledsc.write(resultxml.encode("utf-8"))
         outfiledsc.close
+        
+        for line in lr2.get_merge_statistics():
+            self.my_print(line, msg_types.INFO)
 
         self.my_print("merged file written to " + outfile, msg_types.INFO)
 

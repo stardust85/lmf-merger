@@ -71,6 +71,9 @@ class Lexicon:
         #
         self.has_translations = bool(xmlnode.find('LexicalEntry//Sense/Equivalent'))
         self.has_definitions =  bool(xmlnode.find('LexicalEntry/Sense/Definition'))
+        
+        self.num_merged_lentries = 0
+        self.num_added_lentries = 0
 
     
     def get_statistics(self):
@@ -159,9 +162,11 @@ class Lexicon:
                     if lemma in self.lex_entries[pos]:
                         # we have to merge them
                         self.lex_entries[pos][lemma].merge_with_lex_entry(another.lex_entries[pos][lemma], merge_type)
-                    else:
+                        self.num_merged_lentries += 1
+                    else:d
                         # add it
                         self.lex_entries[pos][lemma] = another.lex_entries[pos][lemma]
+                        self.num_added_lentries += 1
 
 
     def build_elem(self, dom):
