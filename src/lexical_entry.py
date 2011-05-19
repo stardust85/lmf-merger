@@ -46,21 +46,15 @@ class LexicalEntry:
         # merge senses
         self.sense_list.merge_with_senselist(lentry.sense_list, merge_type)
 
-    def build_elem(self, dom):
-        lentry_elem = dom.createElement('LexicalEntry')
+    def build_elem(self, parent):
+        lentry_elem = ET.SubElement(parent, 'LexicalEntry')
         if self.pos:
-            add_feat(dom, lentry_elem, 'partOfSpeech', self.pos)
+            add_feat(lentry_elem, 'partOfSpeech', self.pos)
 
         # add lemma
         if self.lemma:
-            lemma_elem = dom.createElement('Lemma')
-            add_feat(dom, lemma_elem, 'writtenForm', self.lemma)
-            lentry_elem.appendChild(lemma_elem)
+            lemma_elem = ET.SubElement(lentry_elem, 'Lemma')
+            add_feat(lemma_elem, 'writtenForm', self.lemma)
 
         # add senses
-        sense_elem_list = self.sense_list.build_elems(dom)
-
-        for sense_elem in sense_elem_list:
-            lentry_elem.appendChild(sense_elem)
-
-        return lentry_elem
+        self.sense_list.build_elems(lentry_elem)

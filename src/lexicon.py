@@ -169,19 +169,16 @@ class Lexicon:
                         self.num_added_lentries += 1
 
 
-    def build_elem(self, dom):
-        lexicon_elem = dom.createElement('Lexicon')
-        add_feat(dom, lexicon_elem, 'lang', self.lang)
+    def build_elem(self, parent):
+        lexicon_elem = ET.SubElement(parent, 'Lexicon')
+        add_feat(lexicon_elem, 'lang', self.lang)
 
         # add lexical entries
         for pos in self.lex_entries:
             for lemma in self.lex_entries[pos]:
-                lexicon_elem.appendChild(self.lex_entries[pos][lemma].build_elem(dom))
+                self.lex_entries[pos][lemma].build_elem(lexicon_elem)
 
         # add synsets
         for synset_id in self.synsets:
-            print synset_id
-            print self.synsets[synset_id]
-            lexicon_elem.appendChild(self.synsets[synset_id].build_elem(dom, synset_id))
-
-        return lexicon_elem
+            self.synsets[synset_id].build_elem(lexicon_elem, synset_id)
+            

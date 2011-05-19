@@ -35,7 +35,7 @@ class EquivalentSet:
         self.equivalent_set = set()
         equiv_elems = get_child_elements(xmlnode, 'Equivalent')
         for equiv_elem in equiv_elems:
-            lang = get_feat(equiv_elem, 'lang')
+            lang = get_feat(equiv_elem, 'language')
             lang = to_ISO_639_2T(lang, global_info.get('languageCoding'))
             writtenform = get_feat(equiv_elem, 'writtenForm')
 
@@ -51,13 +51,10 @@ class EquivalentSet:
     def merge_with_another(self, another):
         self.equivalent_set |= another.equivalent_set
 
-    def build_elems(self, dom):
-        elems = list()
+    def build_elems(self, parent):
         for equiv in self.equivalent_set:
-            elem = dom.createElement('Equivalent')
+            elem = ET.SubElement(parent, 'Equivalent')
             if not equiv.lang is None:
-                add_feat(dom, elem, 'lang', equiv.lang)
-            add_feat(dom, elem, 'writtenForm', equiv.writtenForm)
-            elems.append(elem)
-
-        return elems
+                add_feat(elem, 'language', equiv.lang)
+            add_feat(elem, 'writtenForm', equiv.writtenForm)
+            

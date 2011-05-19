@@ -49,10 +49,6 @@ class DefinitionSet:
                     return True
         return False
 
-    def build_elems(self, dom):
-        elems = list()
+    def build_elems(self, parent):
         for definition in self.definitions:
-            elem = definition.build_elem(dom)
-            elems.append(elem)
-
-        return elems
+            definition.build_elem(parent)

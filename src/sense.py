@@ -64,21 +64,16 @@ class Sense:
     def merge_with_sense(self, other):
         self.equivalents.merge_with_another(other.equivalents)
 
-    def build_elem(self, dom):
-        sense_elem = dom.createElement('Sense')
+    def build_elem(self, parent):
+        sense_elem = ET.SubElement(parent, 'Sense')
 
         # add synset id
         if not self.synset_id is None:
-            sense_elem.setAttribute('synset', self.synset_id)
+            sense_elem.set('synset', self.synset_id)
 
         # add definitions
         if self.synset is None:
-            for definition_el in self.definitions.build_elems(dom):
-                sense_elem.appendChild(definition_el)
+            self.definitions.build_elems(sense_elem)
 
         # add equivalents
-        equiv_elems = self.equivalents.build_elems(dom)
-        for equiv_elem in equiv_elems:
-            sense_elem.appendChild(equiv_elem)
-
-        return sense_elem
+        self.equivalents.build_elems(sense_elem)

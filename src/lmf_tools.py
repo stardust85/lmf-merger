@@ -21,6 +21,7 @@
 #       MA 02110-1301, USA.
 
 import re
+import lxml.etree as ET
 
 def get_new_id(existing_ids, colliding_id):
     new_id_found = False
@@ -81,13 +82,11 @@ def get_feats(node):
     return result
 
 
-def add_feat(dom, elem, name, value):
+def add_feat(elem, name, value):
     if value != None:
-        feat = dom.createElement('feat')
-        feat.setAttribute('att', name)
-        feat.setAttribute('val', value)
-        elem.appendChild(feat)
-
+        feat = ET.SubElement(elem, 'feat')
+        feat.set('att', name)
+        feat.set('val', value)
 
 
 #def merge_feats(feats1, feats2):

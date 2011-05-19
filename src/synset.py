@@ -51,10 +51,7 @@ class Synset:
     def compare_to(self, other):
         return self.definitions.compare_to(other.definitions)
 
-    def build_elem(self, dom, lmf_id):
-        elem = dom.createElement('Synset')
-        elem.setAttribute('id', lmf_id)
-        for definition_el in self.definitions.build_elems(dom):
-            elem.appendChild(definition_el)
-
-        return elem
+    def build_elem(self, parent, lmf_id):
+        elem = ET.SubElement(parent, 'Synset')
+        elem.set('id', lmf_id)
+        self.definitions.build_elems(elem)

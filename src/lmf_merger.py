@@ -22,7 +22,7 @@
 
 # system modules
 import sys
-import xml.etree.cElementTree as ET
+import lxml.etree as ET
 import optparse
 import gzip
 import traceback
@@ -168,9 +168,11 @@ class LmfMerger:
         lr2.update_DOM()
 
         # write output
-        resultxml = lr2.dom.toprettyxml()
+        resultxml = ET.tostring(lr2.dom, pretty_print = True)
         outfiledsc = open(outfile, 'w')
-        outfiledsc.write(resultxml.encode("utf-8"))
+        outfiledsc.write("""<?xml version="1.0" ?>
+<!DOCTYPE LexicalResource SYSTEM 'DTD_LMF_REV_16.dtd'>
+"""+ resultxml.encode("utf-8"))
         outfiledsc.close
         
         for line in lr2.get_merge_statistics():

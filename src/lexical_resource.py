@@ -23,7 +23,6 @@
 from lmf_tools import *
 import lmf_merger
 import lexicon as lexicon_module
-import xml.dom
 
 
 DEFAULT_DTD_VERSION = "16"
@@ -103,18 +102,15 @@ class LexicalResource:
             
 
     def update_DOM(self):
-        domImplementation = xml.dom.minidom.getDOMImplementation()
-        dtd = domImplementation.createDocumentType('LexicalResource', None, "DTD_LMF_REV_16.dtd")
-        self.dom = domImplementation.createDocument(None, 'LexicalResource', dtd)
+        self.dom = ET.Element("LexicalResource")
 
         # add dtd version
-        self.dom.documentElement.setAttribute('dtdVersion', DEFAULT_DTD_VERSION)
+        self.dom.attrib['dtdVersion'] = DEFAULT_DTD_VERSION
 
         # add global information
-        gi_elem = self.dom.createElement('GlobalInformation')
-        add_feat(self.dom, gi_elem, 'languageCoding', 'ISO 639-3')
-        self.dom.documentElement.appendChild(gi_elem)
+        gi_elem = ET.SubElement(self.dom, 'GlobalInformation')
+        add_feat(gi_elem, 'languageCoding', 'ISO 639-3')
 
         # add lexicons
         for lexicon in self.lexicons:
-            self.dom.documentElement.appendChild(self.lexicons[lexicon].build_elem(self.dom))
+            self.lexicons[lexicon].build_elem(self.dom)

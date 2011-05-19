@@ -55,9 +55,6 @@ class Definition:
     def __hash__(self):
         return self.text
 
-    def build_elem(self, dom):
-        def_elem = dom.createElement('Definition')
-        add_feat(dom, def_elem, 'text', self.text)
-        return def_elem
-
-
+    def build_elem(self, parent):
+        def_elem = ET.SubElement(parent, 'Definition')
+        add_feat(def_elem, 'text', self.text)

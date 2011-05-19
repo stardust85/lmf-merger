@@ -74,9 +74,7 @@ class SenseList:
                     self.senses.add(other_sense)
 
 
-    def build_elems(self, dom):
-        sense_elem_list = list()
+    def build_elems(self, parent):
         for sense in self.senses:
-            sense_elem_list.append(sense.build_elem(dom))
-
-        return sense_elem_list
+            sense.build_elem(parent)
+    
