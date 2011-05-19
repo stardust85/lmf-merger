@@ -8,6 +8,7 @@ file2=*2.xml
 
 for dir in test*
 do
+    echo " ============ entering directory $dir ============"
     cd $dir
     if [ -f runtest.sh ]; then
         ./runtest.sh
