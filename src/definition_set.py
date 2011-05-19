@@ -33,7 +33,14 @@ class DefinitionSet:
 
     def compare_to(self, other):
         """TODO counts average of max similarities"""
-        return self.definitions[0].compare_to(other.definitions[0])
+        sum_similarities = 0
+        for my_definition in self.definitions:
+            max_similarity = 0
+            for other_definition in other.definitions:
+                max_similarity = max(max_similarity, my_definition.compare_to(other_definition))
+            sum_similarities += max_similarity
+        avg = sum_similarities / len(self.definitions)
+        return avg
 
     def equals_to(self, other):
         for other_def in other.definitions:

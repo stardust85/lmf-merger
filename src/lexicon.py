@@ -163,7 +163,7 @@ class Lexicon:
                         # we have to merge them
                         self.lex_entries[pos][lemma].merge_with_lex_entry(another.lex_entries[pos][lemma], merge_type)
                         self.num_merged_lentries += 1
-                    else:d
+                    else:
                         # add it
                         self.lex_entries[pos][lemma] = another.lex_entries[pos][lemma]
                         self.num_added_lentries += 1
