@@ -23,6 +23,7 @@
 from lmf_tools import *
 import lmf_merger
 import lexicon as lexicon_module
+import xml.dom
 
 
 DEFAULT_DTD_VERSION = "16"

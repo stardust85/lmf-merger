@@ -20,7 +20,6 @@
 #       Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #       MA 02110-1301, USA.
 
-import xml.dom
 import re
 
 def get_new_id(existing_ids, colliding_id):
@@ -68,9 +67,6 @@ def get_part_of_speech(node):
     if value == None:
         value = get_feat(node, 'pos')
 
-    if value == None:
-        value = 'missing'
-
     return value
 
 
@@ -92,11 +88,7 @@ def add_feat(dom, elem, name, value):
         feat.setAttribute('val', value)
         elem.appendChild(feat)
 
-def get_lang(xmlnode):
-    """
-    returns ISO-639-3 code of a language
-    """
-    pass
+
 
 #def merge_feats(feats1, feats2):
 ##  Merges feats1 to feats2. Returns merged feats2.

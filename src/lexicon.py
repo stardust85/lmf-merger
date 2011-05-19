@@ -86,7 +86,7 @@ class Lexicon:
         stats.append('\t\tLanguage: ' + repr(self.lang))
         for pos in self.lex_entries:
             stats.append('\t\tNumber of lexical entries with partOfSpeech '
-                 + pos + ': ' + str(len(self.lex_entries[pos])))
+                 + str(pos) + ': ' + str(len(self.lex_entries[pos])))
         stats.append('\t\tNumber of synsets: ' + str(len(self.synsets)))
         return stats
 

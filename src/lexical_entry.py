@@ -48,12 +48,14 @@ class LexicalEntry:
 
     def build_elem(self, dom):
         lentry_elem = dom.createElement('LexicalEntry')
-        add_feat(dom, lentry_elem, 'partOfSpeech', self.pos)
+        if self.pos:
+            add_feat(dom, lentry_elem, 'partOfSpeech', self.pos)
 
         # add lemma
-        lemma_elem = dom.createElement('Lemma')
-        add_feat(dom, lemma_elem, 'writtenForm', self.lemma)
-        lentry_elem.appendChild(lemma_elem)
+        if self.lemma:
+            lemma_elem = dom.createElement('Lemma')
+            add_feat(dom, lemma_elem, 'writtenForm', self.lemma)
+            lentry_elem.appendChild(lemma_elem)
 
         # add senses
         sense_elem_list = self.sense_list.build_elems(dom)
