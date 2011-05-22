@@ -97,6 +97,7 @@ class LexicalResource:
             stats.append( "\tLexicon: %s" % lang)
             stats.append( "\t\tNumber of merged lexical entries: %d" % self.lexicons[lang].num_merged_lentries)
             stats.append( "\t\tNumber of added lexical entries: %d" % self.lexicons[lang].num_added_lentries)
+            stats.append( "\t\tNumber of merged senses %d" % self.lexicons[lang].num_merged_senses)
             
         return stats
             

@@ -83,7 +83,7 @@ def get_feats(node):
 
 
 def add_feat(elem, name, value):
-    if value != None:
+    if value:
         feat = ET.SubElement(elem, 'feat')
         feat.set('att', name)
         feat.set('val', value)

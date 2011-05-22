@@ -54,6 +54,8 @@ class SenseList:
         """
         Merges senses from first node to second.
         """
+        num_senses_merged = 0
+        
         if merge_type == merge_types.BY_DEFINITION:
             for other_sense in other_list.senses:
                 has_similar_sense = False
@@ -70,8 +72,10 @@ class SenseList:
                     if my_sense.equals_to(other_sense, merge_type):
                         my_sense.merge_with_sense(other_sense)
                         has_similar_sense = True
+                        num_senses_merged += 1
                 if not has_similar_sense:
                     self.senses.add(other_sense)
+        return num_senses_merged
 
 
     def build_elems(self, parent):

@@ -12,6 +12,7 @@ import threading
 import gobject
 
 import lmf_merger
+import lexical_resource
 
 class LmfMergerThread(threading.Thread):
     def __init__(self, gui, filename1, filename2, outfile):
@@ -64,6 +65,7 @@ class LmfMergerGui:
     def file_ok_sel(self, widget, data=None):
         fb = self.filebox_list[data]
         fb.entry.set_text(fb.file_selection.get_filename())
+        
         fb.file_selection.hide()
 
     def file_cancel_sel(self, widget, data=None):
@@ -142,9 +144,10 @@ class LmfMergerGui:
         self.filesBox = gtk.HBox(False, 10)
         self.mainVBox.pack_start(self.filesBox, True, True, 0)
         self.filesBox.show()
+        
 
         # create two file boxes
-        self.create_fileboxes(2)
+        self.create_fileboxes(2) # here will be 3, output too...
 
         # default files - practical for debugging
         self.filebox_list[0].entry.set_text(TEST_FILE1)

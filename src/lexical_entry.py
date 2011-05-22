@@ -22,6 +22,7 @@
 
 from lmf_tools import *
 import sense_list
+import form
 
 class LexicalEntry:
     """
@@ -37,14 +38,14 @@ class LexicalEntry:
         if not lemma_elems:
             self.lemma = None
         else:
-            self.lemma = get_feat(lemma_elems[0], 'writtenForm')
+            self.lemma = form.Lemma(lemma_elems[0])
 
         # senses
         self.sense_list = sense_list.SenseList(xmlnode, global_info, lexicon)
 
     def merge_with_lex_entry(self, lentry, merge_type):
         # merge senses
-        self.sense_list.merge_with_senselist(lentry.sense_list, merge_type)
+        return self.sense_list.merge_with_senselist(lentry.sense_list, merge_type)
 
     def build_elem(self, parent):
         lentry_elem = ET.SubElement(parent, 'LexicalEntry')
@@ -53,8 +54,7 @@ class LexicalEntry:
 
         # add lemma
         if self.lemma:
-            lemma_elem = ET.SubElement(lentry_elem, 'Lemma')
-            add_feat(lemma_elem, 'writtenForm', self.lemma)
+            self.lemma.build_elem(lentry_elem)
 
         # add senses
         self.sense_list.build_elems(lentry_elem)

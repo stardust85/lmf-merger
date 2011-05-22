@@ -27,7 +27,6 @@ class Enumerate(object):
 
 merge_types = Enumerate('BY_DEFINITION BY_EQUIVALENT BY_BOTH')
 
-import xml.dom.minidom
 import language_coding as language_coding_module
 import lexical_entry as lexical_entry_module
 import synset as synset_module
@@ -64,7 +63,7 @@ class Lexicon:
             if lex_entry.pos not in self.lex_entries:
                 self.lex_entries[lex_entry.pos] = dict()
 
-            self.lex_entries[lex_entry.pos][lex_entry.lemma] = lex_entry
+            self.lex_entries[lex_entry.pos][lex_entry.lemma.feats['writtenForm']] = lex_entry
 
         #
         # detect, if it is an explanatory lexicon, or a translation lexicon
@@ -90,6 +89,7 @@ class Lexicon:
         stats.append('\t\tNumber of synsets: ' + str(len(self.synsets)))
         return stats
 
+
     def update_synset_id(self, old_id, new_id):
         """updates all references to the synset to its new id"""
         for pos in self.lex_entries:
@@ -97,7 +97,6 @@ class Lexicon:
                 for sense in self.lex_entries[pos][lex_entry].sense_list.senses:
                     if sense.synset_id == old_id:
                         sense.synset_id = new_id
-
 
 
     def merge_with_lexicon(self, another):
@@ -148,6 +147,7 @@ class Lexicon:
         #
         # merge lexical entries
         #
+        self.num_merged_senses = 0
 
         # go thru parts of speech in other lexicon
         for pos in another.lex_entries:
@@ -161,7 +161,9 @@ class Lexicon:
                 for lemma in another.lex_entries[pos]:
                     if lemma in self.lex_entries[pos]:
                         # we have to merge them
-                        self.lex_entries[pos][lemma].merge_with_lex_entry(another.lex_entries[pos][lemma], merge_type)
+                        self.num_merged_senses += \
+                            self.lex_entries[pos][lemma].merge_with_lex_entry( \
+                            another.lex_entries[pos][lemma], merge_type)
                         self.num_merged_lentries += 1
                     else:
                         # add it
