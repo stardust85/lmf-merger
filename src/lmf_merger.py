@@ -154,7 +154,15 @@ class LmfMerger:
 
         try:
             lr1 = self.parse_file(file1)
+            stats = lr1.get_statistics()
+            self.my_print("File 1 statistics", msg_types.INFO)
+            for line in stats:
+                self.my_print(line, msg_types.INFO)
             lr2 = self.parse_file(file2)
+            stats = lr2.get_statistics()
+            self.my_print("File 2 statistics", msg_types.INFO)
+            for line in stats:
+                self.my_print(line, msg_types.INFO)
 
             # merge lexical resources
             lr2.merge_with_LR(lr1)

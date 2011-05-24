@@ -9,6 +9,13 @@
     <LexicalEntry>
       <feat att="partOfSpeech" val="adjective"/>
       <Lemma>
+        <feat att="writtenForm" val="fast"/>
+      </Lemma>
+      <Sense synset="SS1"/>
+    </LexicalEntry>
+    <LexicalEntry>
+      <feat att="partOfSpeech" val="adjective"/>
+      <Lemma>
         <feat att="writtenForm" val="quick"/>
       </Lemma>
       <Sense synset="SS1"/>
@@ -19,13 +26,6 @@
         <feat att="writtenForm" val="rapid"/>
       </Lemma>
       <Sense synset="SS2"/>
-    </LexicalEntry>
-    <LexicalEntry>
-      <feat att="partOfSpeech" val="adjective"/>
-      <Lemma>
-        <feat att="writtenForm" val="fast"/>
-      </Lemma>
-      <Sense synset="SS1"/>
     </LexicalEntry>
     <Synset id="SS1">
       <Definition>

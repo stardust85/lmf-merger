@@ -177,7 +177,7 @@ class Lexicon:
 
         # add lexical entries
         for pos in self.lex_entries:
-            for lemma in self.lex_entries[pos]:
+            for lemma in sorted(self.lex_entries[pos]):
                 self.lex_entries[pos][lemma].build_elem(lexicon_elem)
 
         # add synsets
